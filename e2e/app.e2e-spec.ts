@@ -1,10 +1,10 @@
-import { FreemarketFrontendPage } from './app.po';
+import { RecipesimplifierFrontendPage } from './app.po';
 
-describe('freemarket-frontend App', () => {
-  let page: FreemarketFrontendPage;
+describe('recipesimplifier-frontend App', () => {
+  let page: RecipesimplifierFrontendPage;
 
   beforeEach(() => {
-    page = new FreemarketFrontendPage();
+    page = new RecipesimplifierFrontendPage();
   });
 
   it('should display welcome message', () => {

@@ -1,5 +1,5 @@
 {
-  "name": "freemarket-frontend",
+  "name": "recipesimplifier-frontend",
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {
@@ -50,11 +50,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/hronnie/freemarket-frontend.git"
+    "url": "git+https://gitlab.com/hronnie/recipesimplifier-frontend.git"
   },
   "author": "buxi, hronnie",
   "bugs": {
-    "url": "https://gitlab.com/hronnie/freemarket-frontend/issues"
+    "url": "https://gitlab.com/hronnie/freemrecipesimplifierarket-frontend/issues"
   },
-  "homepage": "https://gitlab.com/hronnie/freemarket-frontend#README"
+  "homepage": "https://gitlab.com/hronnie/recipesimplifier-frontend#README"
 }

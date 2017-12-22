@@ -1,6 +1,6 @@
 import { browser, by, element } from 'protractor';
 
-export class FreemarketFrontendPage {
+export class RecipesimplifierFrontendPage {
   navigateTo() {
     return browser.get('/');
   }
