@@ -35,7 +35,12 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.alertService.error(error);
+                    if (error.status === 500) {
+                        this.alertService.error("Hiba történt a bejelentkezés során: az email vagy jelszó nem megfelelő.");
+                    } else {
+                        this.alertService.error("Ismeretlen hiba történt a bejelentkezés során");
+                    }
+                    
                     this.loading = false;
                 });
     }
