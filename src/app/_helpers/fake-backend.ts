@@ -14,14 +14,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        
         // array in local storage for registered users
         let users: any[] = JSON.parse(localStorage.getItem('users')) || [];
 
         // wrap in delayed observable to simulate server api call
         return Observable.of(null).mergeMap(() => {
-
             // authenticate
-            if (request.url.endsWith('/api/authenticate') && request.method === 'POST') {
+            if (request.url.endsWith('/auth/login') && request.method === 'POST') {
                 // find if any user matches login credentials
                 let filteredUsers = users.filter(user => {
                     return user.username === request.body.username && user.password === request.body.password;
