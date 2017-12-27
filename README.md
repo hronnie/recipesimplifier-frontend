@@ -1,0 +1,1 @@
+https://gitlab.com/hronnie/recipesimplifier-frontend/wikis/How-to-setup-simple-recipe-frontend
