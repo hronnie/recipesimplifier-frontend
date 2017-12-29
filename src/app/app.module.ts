@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { routing } from './app.routing';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
@@ -29,7 +29,8 @@ import { LoginComponent } from './login/index';
     FormsModule, 
     HttpModule, 
     routing,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthGuard,

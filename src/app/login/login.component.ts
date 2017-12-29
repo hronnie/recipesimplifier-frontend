@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService, AuthenticationService } from '../_services/index';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     moduleId: module.id,
@@ -11,6 +12,10 @@ export class LoginComponent implements OnInit {
     model: any = {};
     loading = false;
     returnUrl: string;
+    loginForm: FormGroup;
+    email: FormControl;
+    password: FormControl;
+
 
     constructor(
         private route: ActivatedRoute,
@@ -24,12 +29,25 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.email = new FormControl('', [
+            Validators.required,
+            Validators.pattern("[^ @]*@[^ @]*"),
+            Validators.minLength(6)
+        ]);
+        this.password = new FormControl('', [
+            Validators.required
+        ]);
+        // Form validation
+        this.loginForm = new FormGroup({
+            email: this.email,
+            password: this.password
+        });
     }
 
     login() {
         this.loading = true;
         
-        this.authenticationService.login(this.model.email, this.model.password)
+        this.authenticationService.login(this.email.value, this.password.value)
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
