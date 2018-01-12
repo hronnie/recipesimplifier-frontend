@@ -1,0 +1,21 @@
+
+<div class="container">
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        <li role="presentation"><a [routerLink]="['/']">Kezdőlap</a></li>
+        <li role="presentation"><a [routerLink]="['/about']">Rólunk</a></li>
+        <li role="presentation"><a [routerLink]="['/contact']">Elérhetőség</a></li>
+        <li role="presentation" class="active"><a [routerLink]="['/admin/main']">Admin</a></li>
+        <li role="presentation"><a [routerLink]="['/login']">Kijelentkezés</a></li>
+      </ul>
+    </nav>
+    <h3 class="text-muted">Egyszerű receptek</h3>
+  </div>
+<div class="jumbotron">
+  <h1>Admin felület</h1>
+  <p>Ezen az oldalon lehet új recepteket hozzáadni, illetve azokat és a hozzátartozó elemeket szerkeszteni</p>
+  <p><a [routerLink]="['/admin/receipt']" class="btn btn-primary btn-lg" role="button">Új recept</a></p>
+  
+</div>
+</div>
