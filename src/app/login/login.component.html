@@ -1,0 +1,25 @@
+<div class="col-md-6 col-md-offset-3">
+    <h2>Bejelentkezés</h2>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        <div class="form-group" [formGroup]="loginForm" [ngClass]="{
+                'has-error': loginForm.controls.email.invalid && loginForm.controls.email.dirty, 
+                'has-success': loginForm.controls.email.valid && loginForm.controls.email.dirty 
+              }">
+            <input type="text" class="form-control" name="email" formControlName="email" placeholder="Email" />
+            <div *ngIf="loginForm.controls.email.invalid && loginForm.controls.email.dirty" class="help-block">Az email üres, vagy a formátuma nem megfelelő: a@b.com</div>
+        </div>
+
+        <div class="form-group" [formGroup]="loginForm" [ngClass]="{
+            'has-error': loginForm.controls.password.invalid && loginForm.controls.password.dirty, 
+            'has-success': loginForm.controls.password.valid && loginForm.controls.password.dirty 
+          }">
+            <input type="password" class="form-control" name="password" formControlName="password" placeholder="Jelszó" />
+            <div *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.dirty" class="help-block">A jelszó mező kötelező</div>
+        </div>
+        <div class="form-group">
+            <button [disabled]="loginForm.controls.email.invalid || loginForm.controls.password.invalid" class="btn btn-primary">Belépés</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+            />
+        </div>
+    </form>
+</div>
