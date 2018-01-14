@@ -17,10 +17,13 @@ import { JwtInterceptor } from './_helpers/index';
 import { AlertService, AuthenticationService } from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
-import { AdminMainComponent } from './admin/admin-main/admin-main.component';
-import { AdminReceiptComponent } from './admin/admin-receipt/admin-receipt.component';
-import { ContactComponent } from './contact/contact.component';
-import { AboutComponent } from './about/about.component';
+import { AdminMainComponent } from './admin/index';
+import { AdminReceiptComponent } from './admin/index';
+import { ContactComponent } from './contact/index';
+import { AboutComponent } from './about/index';
+import { FooterComponent, HeaderComponent } from './shared/layout/index';
+
+
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { AboutComponent } from './about/about.component';
     HomeComponent,
     LoginComponent,
     ContactComponent,
-    AboutComponent
+    AboutComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule, 
