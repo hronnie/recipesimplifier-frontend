@@ -11,15 +11,21 @@ export class AdminReceiptComponent   {
   
     rForm: FormGroup;
     post:any;                     // A property for our submitted form
-    description:string = '';
     name:string = '';
-    titleAlert:string = 'This field is required';
+    ingredient:string = '';
+    unit:string = '';
+    preparation:string = '';
+    process:string = '';
+    titleAlert:string = 'Ezt a mezőt kötelező kitölteni';
   
     constructor(private fb: FormBuilder) {
   
       this.rForm = fb.group({
         'name': [null, Validators.required],
-        'description': [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
+        'ingredient': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])],
+        'preparation': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])],
+        'process': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])],
+        'unit': [null, Validators.required],
         'validate' : ''
       });
   
@@ -31,7 +37,7 @@ export class AdminReceiptComponent   {
           (validate) => {
             if (validate == '1') {
               this.rForm.get('name').setValidators([Validators.required, Validators.minLength(3)]);
-              this.titleAlert = "You need to specify at least 3 characters";
+              this.titleAlert = "Legalább 3 karakter hosszúnak kell lennie";
             } else {
               this.rForm.get('name').setValidators(Validators.required);
             }
@@ -41,8 +47,11 @@ export class AdminReceiptComponent   {
       }
     
       addPost(post) {
-        this.description = post.description;
+        this.ingredient = post.ingredient;
         this.name = post.name;
+        this.unit = post.unit;
+        this.preparation = post.preparation;
+        this.process = post.preparation;
       }
     
 }
