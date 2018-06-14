@@ -13,7 +13,7 @@
         <div class="bs-callout bs-callout-info">
           <h3>Összetevők</h3>
 
-          <div class="alert" *ngIf="!receiptForm.controls['ingredients'].valid && receiptForm.controls['ingredients'].touched">Leglább egy összetevőt hozzá kell adni</div>
+          <div class="alert" *ngIf="!receiptForm.controls['ingredients'].valid && receiptForm.controls['ingredients'].touched">Minden összetevőt ki kell tölteni</div>
           <div formArrayName="ingredients" *ngFor="let ingredient of ingredients.controls; let i = index;">
             <div [formGroupName]="i">
               <input type="text" formControlName="name" placeholder="Kezd el gépelni az összetevő nevét"/>
@@ -33,12 +33,14 @@
           <div class="alert" *ngIf="!receiptForm.controls['preparation'].valid && receiptForm.controls['preparation'].touched">Leglább egy összetevőt hozzá kell adni</div>
         </div>
 
-        <div class="bs-callout bs-callout-info">
-          <h3>Folyamatok</h3>
-          <textarea  formControlName="process" rows="4" cols="50" placeholder="Írd le a folyamatokat"></textarea>
-          <div class="alert" *ngIf="!receiptForm.controls['process'].valid && receiptForm.controls['process'].touched">Leglább egy összetevőt hozzá kell adni</div>
-          <button type="button" class="btn btn-default">Új folyamat</button>
+        <div class="alert" *ngIf="!receiptForm.controls['processes'].valid && receiptForm.controls['processes'].touched">Minden folyamatot ki kell tölteni</div>
+        <div formArrayName="processes" *ngFor="let process of processes.controls; let i = index;">
+          <div [formGroupName]="i">
+            <input type="text" formControlName="description" placeholder="Add hozzá a részfolyamatot"/>
+          </div>
         </div>
+        <button type="button" (click)="addProcess()">Új folyamat</button>
+
         <input type="submit" class="button expanded" value="Submit Form" [disabled]="!receiptForm.valid">
       </div>
     </div>
@@ -54,7 +56,9 @@
       <p>{{ process }}</p>
       <ul>
         <li *ngFor="let ingItem of showIng">{{ingItem.name}} {{ingItem.unit}}</li>
-
+      </ul>
+      <ul>
+        <li *ngFor="let processItem of showProcesses">{{processItem.description}} </li>
       </ul>
     </div>
   </div>

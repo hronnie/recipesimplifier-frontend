@@ -23,7 +23,6 @@ export class AdminReceiptComponent   {
     this.receiptForm = formBuilder.group({
       receiptName: [null, Validators.required],
       preparation: [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])],
-      process: [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])],
       validate : '',
       ingredients: this.formBuilder.array([ this.createIngredient()]),
       processes: this.formBuilder.array([ this.createProcess()])
@@ -84,7 +83,7 @@ export class AdminReceiptComponent   {
     this.preparation = post.preparation;
     this.process = post.process;
     this.showIng = post.ingredients;
-    this.showProcesses = post.pr
+    this.showProcesses = post.processes;
   }
 
 }
