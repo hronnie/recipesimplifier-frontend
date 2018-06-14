@@ -66,3 +66,6 @@
   text-decoration:none;
 }
 
+input[type="text"] {
+  width: 200px;
+} 

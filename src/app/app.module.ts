@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { routing } from './app.routing';
+import { AdminModule } from './admin/admin.module';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,13 +17,24 @@ import { JwtInterceptor } from './_helpers/index';
 import { AlertService, AuthenticationService } from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
+import { AdminMainComponent } from './admin/index';
+import { AdminReceiptComponent } from './admin/index';
+import { ContactComponent } from './contact/index';
+import { AboutComponent } from './about/index';
+import { FooterComponent, HeaderComponent } from './shared/layout/index';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ContactComponent,
+    AboutComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule, 
@@ -30,7 +42,8 @@ import { LoginComponent } from './login/index';
     HttpModule, 
     routing,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AdminModule    
   ],
   providers: [
     AuthGuard,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
     moduleId: module.id,
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
     templateUrl: 'app.component.html'
 })
 
-export class AppComponent { }
+export class AppComponent {
+  
+ }

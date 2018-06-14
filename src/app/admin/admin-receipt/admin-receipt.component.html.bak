@@ -1,0 +1,41 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1>Új recept hozzáadása</h1>
+  </div>
+</div>
+<h2></h2>
+<hr>
+<div class="input-group">
+  <div class="bs-callout bs-callout-info">
+    <h3>Recept neve</h3>
+    <input type="text" class="form-control" placeholder="Recept neve">
+  </div>
+  <hr>
+  <div class="bs-callout bs-callout-info">
+    <h3>Összetevők</h3>
+    <input class="form-control" type="text" placeholder="Kezd el gépelni az összetevő nevét">
+    <select name="unit">
+        <option value="gramm">g</option>
+        <option value="dkg">dkg</option>
+        <option value="liter">l</option>
+      </select>
+      <button type="button" class="btn btn-default">Új összetevő</button>
+  </div>
+  <hr>
+  <div class="bs-callout bs-callout-info">
+    <h3>Előkészités</h3>
+    <textarea rows="4" cols="50" placeholder="Írd le, hogy miilyen előkészítési folyamatok szükségesek. Pl. felvágni a zöldségeket, stb."></textarea>
+  </div>
+  <hr>
+  <div class="bs-callout bs-callout-info">
+    <h3>Folyamatok</h3>
+    <textarea rows="4" cols="50" placeholder="Írd le a folyamatokat" ></textarea>
+    
+    <select name="unit">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+      <button type="button" class="btn btn-default">Új folyamat</button>
+  </div>
+  
