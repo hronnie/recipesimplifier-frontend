@@ -23,6 +23,7 @@
                 <option value="liter">l</option>
               </select>
             </div>
+            <div *ngIf="ingredients.length > 1"><button type="button" (click)="removeIngredient(i)">Törlés</button></div>
           </div>
           <button type="button" (click)="addIngredient()">Új összetevő</button>
 
@@ -38,6 +39,7 @@
           <div [formGroupName]="i">
             <input type="text" formControlName="description" placeholder="Add hozzá a részfolyamatot"/>
           </div>
+          <div *ngIf="processes.length > 1"><button type="button" (click)="removeProcess(i)">Törlés</button></div>
         </div>
         <button type="button" (click)="addProcess()">Új folyamat</button>
 

@@ -47,6 +47,10 @@ export class AdminReceiptComponent   {
     this.ingredients.push(this.createIngredient());
   }
 
+  removeIngredient(index): void {
+    this.ingredients.removeAt(index);
+  }
+
   // process related methods
 
   createProcess(): FormGroup {
@@ -63,6 +67,9 @@ export class AdminReceiptComponent   {
     this.processes.push(this.createProcess());
   }
 
+  removeProcess(index): void {
+    this.processes.removeAt(index);
+  }
   ngOnInit() {
 
     this.receiptForm.get('validate').valueChanges.subscribe(
