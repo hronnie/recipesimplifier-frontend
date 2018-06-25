@@ -1,19 +1,19 @@
-<div *ngIf="!receiptName; else forminfo">
-  <form [formGroup]="receiptForm" (ngSubmit)="addPost(receiptForm.value)">
+<div *ngIf="!recipeName; else forminfo">
+  <form [formGroup]="recipeForm" (ngSubmit)="addPost(recipeForm.value)">
     <div class="form-container">
       <div class="row columns">
 
         <h1>Új recept hozzáadása</h1>
 
         <label>Recept neve
-          <input type="text" formControlName="receiptName">
+          <input type="text" formControlName="recipeName">
         </label>
-        <div class="alert" *ngIf="!receiptForm.controls['receiptName'].valid && receiptForm.controls['receiptName'].touched">{{ titleAlert }}</div>
+        <div class="alert" *ngIf="!recipeForm.controls['recipeName'].valid && recipeForm.controls['recipeName'].touched">{{ titleAlert }}</div>
 
         <div class="bs-callout bs-callout-info">
           <h3>Összetevők</h3>
 
-          <div class="alert" *ngIf="!receiptForm.controls['ingredients'].valid && receiptForm.controls['ingredients'].touched">Minden összetevőt ki kell tölteni</div>
+          <div class="alert" *ngIf="!recipeForm.controls['ingredients'].valid && recipeForm.controls['ingredients'].touched">Minden összetevőt ki kell tölteni</div>
           <div formArrayName="ingredients" *ngFor="let ingredient of ingredients.controls; let i = index;">
             <div [formGroupName]="i">
               <input type="text" formControlName="name" placeholder="Kezd el gépelni az összetevő nevét"/>
@@ -22,28 +22,35 @@
                 <option value="dkg">dkg</option>
                 <option value="liter">l</option>
               </select>
+              <input type="text" formControlName="quantity" placeholder="mennyiség"/>
             </div>
             <div *ngIf="ingredients.length > 1"><button type="button" (click)="removeIngredient(i)">Törlés</button></div>
           </div>
           <button type="button" (click)="addIngredient()">Új összetevő</button>
-
-        </div>
-        <div class="bs-callout bs-callout-info">
-          <h3>Előkészités</h3>
-          <textarea formControlName="preparation" rows="4" cols="50" placeholder="Írd le, hogy miilyen előkészítési folyamatok szükségesek. Pl. felvágni a zöldségeket, stb."></textarea>
-          <div class="alert" *ngIf="!receiptForm.controls['preparation'].valid && receiptForm.controls['preparation'].touched">Leglább egy összetevőt hozzá kell adni</div>
         </div>
 
-        <div class="alert" *ngIf="!receiptForm.controls['processes'].valid && receiptForm.controls['processes'].touched">Minden folyamatot ki kell tölteni</div>
+        <div class="alert" *ngIf="!recipeForm.controls['preparations'].valid && recipeForm.controls['preparations'].touched">Minden előkészítést ki kell tölteni</div>
+        <div formArrayName="preparations" *ngFor="let preparation of preparations.controls; let i = index;">
+          <div [formGroupName]="i">
+            <input type="text" formControlName="description" placeholder="Előkészítés leírása"/>
+            <input type="text" formControlName="duration" placeholder="időtartam"/>
+          </div>
+          <div *ngIf="preparations.length > 1"><button type="button" (click)="removePreparation(i)">Törlés</button></div>
+        </div>
+        <button type="button" (click)="addPreparation()">Új összetevő</button>
+
+
+        <div class="alert" *ngIf="!recipeForm.controls['processes'].valid && recipeForm.controls['processes'].touched">Minden folyamatot ki kell tölteni</div>
         <div formArrayName="processes" *ngFor="let process of processes.controls; let i = index;">
           <div [formGroupName]="i">
             <input type="text" formControlName="description" placeholder="Add hozzá a részfolyamatot"/>
+            <input type="text" formControlName="duration" placeholder="időtartam"/>
           </div>
           <div *ngIf="processes.length > 1"><button type="button" (click)="removeProcess(i)">Törlés</button></div>
         </div>
         <button type="button" (click)="addProcess()">Új folyamat</button>
 
-        <input type="submit" class="button expanded" value="Submit Form" [disabled]="!receiptForm.valid">
+        <input type="submit" class="button expanded" value="Submit Form" [disabled]="!recipeForm.valid">
       </div>
     </div>
   </form>
@@ -52,7 +59,7 @@
 <ng-template #forminfo>
   <div class="form-container">
     <div class="row columns">
-      <h1>{{ receiptName }}</h1>
+      <h1>{{ recipeName }}</h1>
 
       <p>{{ preparation }}</p>
       <p>{{ process }}</p>

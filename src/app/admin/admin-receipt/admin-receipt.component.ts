@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AppSettings} from "../../_commons";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-receipt',
@@ -9,41 +11,65 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 export class AdminReceiptComponent   {
 
-  receiptForm: FormGroup;
+  recipeForm: FormGroup;
   post: any;                     // A property for our submitted form
-  receiptName: string = '';
+  recipeName: string = '';
   preparation: string = '';
   process: string = '';
   titleAlert: string = 'Ezt a mezőt kötelező kitölteni';
   showIng: FormArray;
   showProcesses: FormArray;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
 
-    this.receiptForm = formBuilder.group({
-      receiptName: [null, Validators.required],
-      preparation: [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])],
-      validate : '',
+    this.recipeForm = formBuilder.group({
+      recipeName: [null, Validators.required],
+      preparations: this.formBuilder.array([ this.createPreparation()]),
       ingredients: this.formBuilder.array([ this.createIngredient()]),
       processes: this.formBuilder.array([ this.createProcess()])
     });
 
   }
 
+  // preparations related methods
+
+
+  createPreparation(): FormGroup {
+    return this.formBuilder.group({
+      description: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])],
+      duration: [null, Validators.required]
+    });
+  }
+
+  get preparations(): FormArray {
+    return this.recipeForm.get('preparations') as FormArray;
+  };
+
+  addPreparation(): void {
+    this.preparations.push(this.createPreparation());
+  }
+
+  removePreparation(index): void {
+    this.ingredients.removeAt(index);
+  }
+
   // ingredients related methods
 
   createIngredient(): FormGroup {
     return this.formBuilder.group({
-      name: [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])],
+      name: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])],
       unit: [null, Validators.required],
+      quantity: [null, Validators.required]
     });
   }
 
   get ingredients(): FormArray {
-    return this.receiptForm.get('ingredients') as FormArray;
+    return this.recipeForm.get('ingredients') as FormArray;
   };
 
   addIngredient(): void {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    debugger;
     this.ingredients.push(this.createIngredient());
   }
 
@@ -55,12 +81,13 @@ export class AdminReceiptComponent   {
 
   createProcess(): FormGroup {
     return this.formBuilder.group({
-      description: [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])]
+      description: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])],
+      duration: [null, Validators.required]
     });
   }
 
   get processes(): FormArray {
-    return this.receiptForm.get('processes') as FormArray;
+    return this.recipeForm.get('processes') as FormArray;
   };
 
   addProcess(): void {
@@ -72,25 +99,38 @@ export class AdminReceiptComponent   {
   }
   ngOnInit() {
 
-    this.receiptForm.get('validate').valueChanges.subscribe(
-      (validate) => {
-        if (validate == '1') {
-          this.receiptForm.get('receiptName').setValidators([Validators.required, Validators.minLength(3)]);
-          this.titleAlert = "Legalább 3 karakter hosszúnak kell lennie";
-        } else {
-          this.receiptForm.get('receiptName').setValidators(Validators.required);
-        }
-        this.receiptForm.get('receiptName').updateValueAndValidity();
-      }
-    )
+    // this.recipeForm.get('validate').valueChanges.subscribe(
+    //   (validate) => {
+    //     if (validate == '1') {
+    //       this.recipeForm.get('recipeName').setValidators([Validators.required, Validators.minLength(3)]);
+    //       this.titleAlert = "Legalább 3 karakter hosszúnak kell lennie";
+    //     } else {
+    //       this.recipeForm.get('recipeName').setValidators(Validators.required);
+    //     }
+    //     this.recipeForm.get('recipeName').updateValueAndValidity();
+    //   }
+    // )
   }
 
   addPost(post) {
-    this.receiptName = post.receiptName;
-    this.preparation = post.preparation;
-    this.process = post.process;
-    this.showIng = post.ingredients;
-    this.showProcesses = post.processes;
+    // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // let token = "Bearer " + currentUser.access_token;
+    // let headers = new HttpHeaders().set("Authorization", token);
+    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe',
+      {name: post.recipeName, ingredients: post.ingredients, preparations: post.preparations, processes: post.processes})
+      .subscribe(res => console.log(res.toString()));
+    // let headers = new Headers();
+    // headers.append('Authorization', 'Bearer ' + localStorage.getItem("currentUser"));
+    // this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe', {
+    //   name:post.name,
+    //   ingredients: post.ingredients,
+    //   preparations: post.preparations,
+    //   processes: post.processes}).subscribe(res => console.log(res.toString()));
+    // this.recipeName = post.recipeName;
+    // this.preparation = post.preparation;
+    // this.process = post.process;
+    // this.showIng = post.ingredients;
+    // this.showProcesses = post.processes;
   }
 
 }
