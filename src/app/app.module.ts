@@ -18,7 +18,7 @@ import { AlertService, AuthenticationService } from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { AdminMainComponent } from './admin/index';
-import { AdminReceiptComponent } from './admin/index';
+import { AdminRecipeComponent } from './admin/index';
 import { ContactComponent } from './contact/index';
 import { AboutComponent } from './about/index';
 import { FooterComponent, HeaderComponent } from './shared/layout/index';
@@ -37,13 +37,13 @@ import { FooterComponent, HeaderComponent } from './shared/layout/index';
     HeaderComponent
   ],
   imports: [
-    BrowserModule, 
-    FormsModule, 
-    HttpModule, 
+    BrowserModule,
+    FormsModule,
+    HttpModule,
     routing,
     HttpClientModule,
     ReactiveFormsModule,
-    AdminModule    
+    AdminModule
   ],
   providers: [
     AuthGuard,

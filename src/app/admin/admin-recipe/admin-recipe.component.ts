@@ -4,12 +4,12 @@ import {AppSettings} from "../../_commons";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-admin-receipt',
-  templateUrl: './admin-receipt.component.html',
-  styleUrls: ['./admin-receipt.component.css']
+  selector: 'app-admin-recipe',
+  templateUrl: './admin-recipe.component.html',
+  styleUrls: ['./admin-recipe.component.css']
 })
 
-export class AdminReceiptComponent   {
+export class AdminRecipeComponent   {
 
   recipeForm: FormGroup;
   post: any;                     // A property for our submitted form

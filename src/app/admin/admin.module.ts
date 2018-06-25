@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminMainComponent } from './admin-main/admin-main.component';
-import { AdminReceiptComponent } from './admin-receipt/admin-receipt.component';
+import { AdminRecipeComponent } from './admin-recipe/admin-recipe.component';
 import { routing } from '../app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -9,9 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     routing,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [AdminMainComponent, AdminReceiptComponent]
+  declarations: [AdminMainComponent, AdminRecipeComponent]
 })
 export class AdminModule { }
