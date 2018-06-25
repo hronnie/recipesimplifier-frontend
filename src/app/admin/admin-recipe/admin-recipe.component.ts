@@ -33,7 +33,6 @@ export class AdminRecipeComponent   {
 
   // preparations related methods
 
-
   createPreparation(): FormGroup {
     return this.formBuilder.group({
       description: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])],
@@ -68,8 +67,6 @@ export class AdminRecipeComponent   {
   };
 
   addIngredient(): void {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    debugger;
     this.ingredients.push(this.createIngredient());
   }
 
