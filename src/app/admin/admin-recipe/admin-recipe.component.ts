@@ -49,7 +49,7 @@ export class AdminRecipeComponent   {
   }
 
   removePreparation(index): void {
-    this.ingredients.removeAt(index);
+    this.preparations.removeAt(index);
   }
 
   // ingredients related methods
@@ -94,40 +94,12 @@ export class AdminRecipeComponent   {
   removeProcess(index): void {
     this.processes.removeAt(index);
   }
-  ngOnInit() {
-
-    // this.recipeForm.get('validate').valueChanges.subscribe(
-    //   (validate) => {
-    //     if (validate == '1') {
-    //       this.recipeForm.get('recipeName').setValidators([Validators.required, Validators.minLength(3)]);
-    //       this.titleAlert = "Legalább 3 karakter hosszúnak kell lennie";
-    //     } else {
-    //       this.recipeForm.get('recipeName').setValidators(Validators.required);
-    //     }
-    //     this.recipeForm.get('recipeName').updateValueAndValidity();
-    //   }
-    // )
-  }
+  ngOnInit() {  }
 
   addPost(post) {
-    // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    // let token = "Bearer " + currentUser.access_token;
-    // let headers = new HttpHeaders().set("Authorization", token);
     this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe',
       {name: post.recipeName, ingredients: post.ingredients, preparations: post.preparations, processes: post.processes})
       .subscribe(res => console.log(res.toString()));
-    // let headers = new Headers();
-    // headers.append('Authorization', 'Bearer ' + localStorage.getItem("currentUser"));
-    // this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe', {
-    //   name:post.name,
-    //   ingredients: post.ingredients,
-    //   preparations: post.preparations,
-    //   processes: post.processes}).subscribe(res => console.log(res.toString()));
-    // this.recipeName = post.recipeName;
-    // this.preparation = post.preparation;
-    // this.process = post.process;
-    // this.showIng = post.ingredients;
-    // this.showProcesses = post.processes;
   }
 
 }
