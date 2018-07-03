@@ -20,8 +20,11 @@ import { LoginComponent } from './login/index';
 import { AdminMainComponent } from './admin/index';
 import { AdminRecipeComponent } from './admin/index';
 import { ContactComponent } from './contact/index';
-import { AboutComponent } from './about/index';
 import { FooterComponent, HeaderComponent } from './shared/layout/index';
+import { RecipeComponent } from './recipe/recipe.component';
+import { SearchComponent } from './search/search.component';
+import { BlogComponent } from './blog/blog.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 
 
@@ -32,9 +35,12 @@ import { FooterComponent, HeaderComponent } from './shared/layout/index';
     HomeComponent,
     LoginComponent,
     ContactComponent,
-    AboutComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    RecipeComponent,
+    SearchComponent,
+    BlogComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

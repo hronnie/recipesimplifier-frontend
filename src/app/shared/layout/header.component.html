@@ -9,18 +9,39 @@
           <a [routerLink]="['/']">Kezdőlap</a>
         </li>
 
-        <li role="presentation" class="active" *ngIf="route === 'about'">
-          <a [routerLink]="['/about']">Rólunk</a>
+        <li role="presentation" class="active" *ngIf="route === 'recipe'">
+          <a [routerLink]="['/recipe']">Receptek</a>
         </li>
-        <li role="presentation" *ngIf="route !== 'about'">
-          <a [routerLink]="['/about']">Rólunk</a>
+        <li role="presentation" *ngIf="route !== 'recipe'">
+          <a [routerLink]="['/recipe']">Receptek</a>
+        </li>
+
+        <li role="presentation" class="active" *ngIf="route === 'search'">
+          <a [routerLink]="['/search']">Receptek keresése</a>
+        </li>
+        <li role="presentation" *ngIf="route !== 'search'">
+          <a [routerLink]="['/search']">Receptek keresése</a>
+        </li>
+
+        <li role="presentation" class="active" *ngIf="route === 'blog'">
+          <a [routerLink]="['/blog']">Blog</a>
+        </li>
+        <li role="presentation" *ngIf="route !== 'blog'">
+          <a [routerLink]="['/blog']">Blog</a>
         </li>
 
         <li role="presentation" class="active" *ngIf="route === 'contact'">
-          <a [routerLink]="['/contact']">Elérhetőség</a>
+          <a [routerLink]="['/contact']">Kapcsolat</a>
         </li>
         <li role="presentation" *ngIf="route !== 'contact'">
-          <a [routerLink]="['/contact']">Elérhetőség</a>
+          <a [routerLink]="['/contact']">Kapcsolat</a>
+        </li>
+
+        <li role="presentation" class="active" *ngIf="route === 'registration'">
+          <a [routerLink]="['/registration']">Regisztráció</a>
+        </li>
+        <li role="presentation" *ngIf="route !== 'registration'">
+          <a [routerLink]="['/registration']">Regisztráció</a>
         </li>
 
         <li role="presentation" class="active" *ngIf="route === 'admin'">
