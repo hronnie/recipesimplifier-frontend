@@ -37,15 +37,21 @@ export class HeaderComponent implements OnInit {
         }
         else if (this.router.url === '/') {
           this.route = 'home';
+        } else if (this.router.url.indexOf('/recipe') === 0) {
+          this.route = 'recipe';
+        } else if (this.router.url.indexOf('/search') === 0) {
+          this.route = 'search';
+        } else if (this.router.url.indexOf('/blog') === 0) {
+          this.route = 'blog';
         } else if (this.router.url.indexOf('/login') === 0) {
           this.route = 'admin';
-        } else if (this.router.url === '/about') {
-          this.route = 'about';
         } else if (this.router.url === '/contact') {
           this.route = 'contact';
+        } else if (this.router.url === '/registration') {
+          this.route = 'registration';
         } else if (this.router.url.indexOf('/admin') === 0) {
           this.route = 'admin';
-        } 
+        }
       });
   }
 }
