@@ -20,7 +20,10 @@ export class AdminRecipeComponent   {
       recipeName: [null, Validators.required],
       preparations: this.formBuilder.array([ this.createPreparation()]),
       ingredients: this.formBuilder.array([ this.createIngredient()]),
-      processes: this.formBuilder.array([ this.createProcess()])
+      processes: this.formBuilder.array([ this.createProcess()]),
+      calorie: [null, Validators.required],
+      price: [null, Validators.required],
+      category: [null, Validators.required]
     });
 
   }
@@ -92,7 +95,14 @@ export class AdminRecipeComponent   {
 
   addPost(post) {
     this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe',
-      {name: post.recipeName, ingredients: post.ingredients, preparations: post.preparations, processes: post.processes})
+      {name: post.recipeName,
+              ingredients: post.ingredients,
+              preparations: post.preparations,
+              processes: post.processes,
+              calorie: post.calorie,
+              price: post.price,
+              category: post.category
+      })
       .subscribe(res => console.log(res.toString()));
   }
 
