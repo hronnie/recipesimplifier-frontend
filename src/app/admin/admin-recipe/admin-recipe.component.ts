@@ -12,13 +12,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AdminRecipeComponent   {
 
   recipeForm: FormGroup;
-  post: any;                     // A property for our submitted form
-  recipeName: string = '';
-  preparation: string = '';
-  process: string = '';
   titleAlert: string = 'Ezt a mezőt kötelező kitölteni';
-  showIng: FormArray;
-  showProcesses: FormArray;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) {
 
