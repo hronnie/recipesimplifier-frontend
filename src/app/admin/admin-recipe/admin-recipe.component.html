@@ -49,11 +49,7 @@
           </div>
           <div class="form-group col-md-4">
             <label for="unitId">Mértékegység</label>
-            <select name="unit" id="unitId" formControlName="unit" class="form-control">
-              <option value="gramm">g</option>
-              <option value="dkg">dkg</option>
-              <option value="liter">l</option>
-            </select>
+            <input type="text" formControlName="unit" id="unitId" class="form-control" placeholder="mértékegység"/>
           </div>
           <!--Buttons START-->
           <div *ngIf="ingredients.length > 1" class="form-group col-md-4">
@@ -197,9 +193,10 @@
         <div class="form-group col-md-4">
           <label for="categoryId">Kategória</label>
           <select name="unit" id="categoryId" formControlName="category" class="form-control">
-            <option value="cat1">cat1</option>
-            <option value="cat2">cat2</option>
-            <option value="cat3">cat3</option>
+            <option value="soup">Leves</option>
+            <option value="mainCourse">Főétel</option>
+            <option value="salad">Saláta</option>
+            <option value="dessert">Desszert</option>
           </select>
         </div>
       </div>
