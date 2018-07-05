@@ -145,6 +145,69 @@
       <!--Process section END-->
       <!--=======================-->
 
+      <!--=======================-->
+      <!--Calorie section  START-->
+      <!--=======================-->
+
+      <div class="flex-row">
+        <div class="form-group">
+          <label for="calorieId">Kalória</label>
+          <input type="text" class="form-control" name="calorie" id="calorieId" formControlName="calorie"
+                 placeholder="Kalória"/>
+          <!--Validation START-->
+          <div class="alert"
+               *ngIf="!recipeForm.controls['calorie'].valid && recipeForm.controls['calorie'].touched">
+            {{ titleAlert }}
+          </div>
+          <!--Validation END-->
+        </div>
+      </div>
+
+      <!--=======================-->
+      <!--Calorie section END-->
+      <!--=======================-->
+
+      <!--=======================-->
+      <!--Price section START-->
+      <!--=======================-->
+
+      <div class="flex-row">
+        <div class="form-group">
+          <label for="priceId">Árkategória</label>
+          <input type="text" class="form-control" name="price" id="priceId" formControlName="price"
+                 placeholder="Árkategória"/>
+          <!--Validation START-->
+          <div class="alert"
+               *ngIf="!recipeForm.controls['price'].valid && recipeForm.controls['price'].touched">
+            {{ titleAlert }}
+          </div>
+          <!--Validation END-->
+        </div>
+      </div>
+
+      <!--=======================-->
+      <!--Price section END-->
+      <!--=======================-->
+
+      <!--=======================-->
+      <!--Category section START-->
+      <!--=======================-->
+
+      <div class="flex-row">
+        <div class="form-group col-md-4">
+          <label for="categoryId">Kategória</label>
+          <select name="unit" id="categoryId" formControlName="category" class="form-control">
+            <option value="cat1">cat1</option>
+            <option value="cat2">cat2</option>
+            <option value="cat3">cat3</option>
+          </select>
+        </div>
+      </div>
+
+      <!--=======================-->
+      <!--Category section END-->
+      <!--=======================-->
+
       <div class="flex-row">
         <input type="submit" class="btn btn-primary" value="Recept elkéldése" [disabled]="!recipeForm.valid">
       </div>
