@@ -49,11 +49,7 @@
           </div>
           <div class="form-group col-md-4">
             <label for="unitId">Mértékegység</label>
-            <select name="unit" id="unitId" formControlName="unit" class="form-control">
-              <option value="gramm">g</option>
-              <option value="dkg">dkg</option>
-              <option value="liter">l</option>
-            </select>
+            <input type="text" formControlName="unit" id="unitId" class="form-control" placeholder="mértékegység"/>
           </div>
           <!--Buttons START-->
           <div *ngIf="ingredients.length > 1" class="form-group col-md-4">
