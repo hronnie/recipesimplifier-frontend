@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppSettings} from "../../_commons";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -12,12 +12,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AdminRecipeComponent   {
 
   recipeForm: FormGroup;
-  titleAlert: string = 'Ezt a mezőt kötelező kitölteni';
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) {
 
     this.recipeForm = formBuilder.group({
-      recipeName: [null, Validators.required],
+      recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
       preparations: this.formBuilder.array([ this.createPreparation()]),
       ingredients: this.formBuilder.array([ this.createIngredient()]),
       processes: this.formBuilder.array([ this.createProcess()]),
@@ -32,8 +31,8 @@ export class AdminRecipeComponent   {
 
   createPreparation(): FormGroup {
     return this.formBuilder.group({
-      description: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])],
-      duration: [null, Validators.required]
+      description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
+      duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
     });
   }
 
@@ -53,9 +52,9 @@ export class AdminRecipeComponent   {
 
   createIngredient(): FormGroup {
     return this.formBuilder.group({
-      name: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])],
-      unit: [null, Validators.required],
-      quantity: [null, Validators.required]
+      name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
+      unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
+      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)])
     });
   }
 
@@ -75,8 +74,8 @@ export class AdminRecipeComponent   {
 
   createProcess(): FormGroup {
     return this.formBuilder.group({
-      description: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])],
-      duration: [null, Validators.required]
+      description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
+      duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
     });
   }
 
