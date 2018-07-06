@@ -13,6 +13,7 @@ export class AdminRecipeEditComponent implements OnInit {
   recipeForm: FormGroup;
   responseSuccessMsg: String;
   responseErrorMsg: String;
+  isRecipeLoded: boolean;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) {
 
@@ -25,6 +26,8 @@ export class AdminRecipeEditComponent implements OnInit {
       price: [null, Validators.required],
       category: [null, Validators.required]
     });
+
+    this.isRecipeLoded = false;
 
   }
 

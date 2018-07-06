@@ -1,6 +1,6 @@
 <div *ngIf="!recipeName; else forminfo">
   <form [formGroup]="recipeForm" (ngSubmit)="addPost(recipeForm.value)">
-    <p class="h1">Új recept hozzáadása</p>
+    <p class="h1">Receptek szerkesztése</p>
 
     <div class="flex-column">
       <!--=======================-->
@@ -25,7 +25,7 @@
         <div class="form-group">
           <label for="recipeNameId">Recept neve</label>
           <input type="text" class="form-control" name="recipeName" id="recipeNameId" formControlName="recipeName"
-                 placeholder="Recept neve"/>
+                 placeholder="Kezd el gépelni a recept nevét.."/>
 
           <!--Validation START-->
           <div class="alert"
@@ -39,208 +39,217 @@
       <!--Name section END-->
       <!--=======================-->
 
-      <!--=======================-->
-      <!--Ingredients section START-->
-      <!--=======================-->
-      <div class="flex-row">
-        <p class="h2">Összetevők</p>
-      </div>
-      <!--Validation START-->
-      <div class="alert"
-           *ngIf="!recipeForm.controls['ingredients'].valid && recipeForm.controls['ingredients'].touched">Minden
-        összetevőt ki kell tölteni
-      </div>
-      <!--Validation END-->
 
-      <div class="form-row" formArrayName="ingredients" *ngFor="let ingredient of ingredients.controls; let i = index;">
-        <div [formGroupName]="i" class="flex-row">
-          <div class="form-group col-md-6">
-            <label for="ingredientNameId">Összetevő</label>
-            <input type="text" formControlName="name" id="ingredientNameId" class="form-control"
-                   placeholder="Összetevő"/>
+
+<!--============================================-->
+<!--Section for Edit when recipe is loaded START-->
+<!--============================================-->
+      <div *ngIf="isRecipeLoded">
+
+
+        <!--=======================-->
+        <!--Ingredients section START-->
+        <!--=======================-->
+        <div class="flex-row">
+          <p class="h2">Összetevők</p>
+        </div>
+        <!--Validation START-->
+        <div class="alert"
+             *ngIf="!recipeForm.controls['ingredients'].valid && recipeForm.controls['ingredients'].touched">Minden
+          összetevőt ki kell tölteni
+        </div>
+        <!--Validation END-->
+
+        <div class="form-row" formArrayName="ingredients" *ngFor="let ingredient of ingredients.controls; let i = index;">
+          <div [formGroupName]="i" class="flex-row">
+            <div class="form-group col-md-6">
+              <label for="ingredientNameId">Összetevő</label>
+              <input type="text" formControlName="name" id="ingredientNameId" class="form-control"
+                     placeholder="Összetevő"/>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="quantityId">Mennyiség</label>
+              <input type="text" formControlName="quantity" id="quantityId" class="form-control" placeholder="mennyiség"/>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="unitId">Mértékegység</label>
+              <input type="text" formControlName="unit" id="unitId" class="form-control" placeholder="mértékegység"/>
+            </div>
+            <!--Buttons START-->
+            <div *ngIf="ingredients.length > 1" class="form-group col-md-4">
+              <button type="button" class="btn btn-danger" (click)="removeIngredient(i)">Törlés</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-secondary" (click)="addIngredient()">Új összetevő</button>
+            </div>
+            <!--Buttons END-->
           </div>
-          <div class="form-group col-md-2">
-            <label for="quantityId">Mennyiség</label>
-            <input type="text" formControlName="quantity" id="quantityId" class="form-control" placeholder="mennyiség"/>
+        </div>
+        <!--=======================-->
+        <!--Ingredients section END-->
+        <!--=======================-->
+
+        <!--=======================-->
+        <!--Preparation section START-->
+        <!--=======================-->
+        <div class="flex-row">
+          <p class="h2">Előkészítési folyamatok</p>
+        </div>
+        <!--Validation START-->
+        <div class="alert"
+             *ngIf="!recipeForm.controls['preparations'].valid && recipeForm.controls['preparations'].touched">Ellenőrízd
+          az előkészítési folyamatokat.
+        </div>
+        <!--Validation END-->
+        <div class="form-row" formArrayName="preparations"
+             *ngFor="let preparation of preparations.controls; let i = index;">
+          <div [formGroupName]="i" class="flex-row">
+            <div class="form-group col-md-6">
+              <label for="preDescId">Előkészítés leírása</label>
+              <textarea formControlName="description" id="preDescId" class="form-control"
+                        placeholder="Előkészítés leírása"></textarea>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="preDescId">Időtartam (perc)</label>
+              <input type="text" formControlName="duration" id="preDurationId" class="form-control"
+                     placeholder="Időtartam"/>
+            </div>
+            <!--Buttons START-->
+            <div *ngIf="preparations.length > 1" class="form-group col-md-4">
+              <button type="button" class="btn btn-danger" (click)="removePreparation(i)">Törlés</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-secondary" (click)="addPreparation()">Új előkészítés</button>
+            </div>
+            <!--Buttons END-->
           </div>
+        </div>
+        <!--=======================-->
+        <!--Preparation section END-->
+        <!--=======================-->
+
+        <!--=======================-->
+        <!--Process section START-->
+        <!--=======================-->
+        <div class="flex-row">
+          <p class="h2">Elkészítési folyamatok</p>
+        </div>
+        <!--Validation START-->
+        <div class="alert" *ngIf="!recipeForm.controls['processes'].valid && recipeForm.controls['processes'].touched">
+          Ellenőrízd az ellenőrzési folyamatokat.
+        </div>
+        <!--Validation END-->
+        <div class="form-row" formArrayName="processes" *ngFor="let process of processes.controls; let i = index;">
+          <div [formGroupName]="i" class="flex-row">
+            <div class="form-group col-md-6">
+              <label for="procDescId">Elkészítés leírása</label>
+              <textarea formControlName="description" id="procDescId" class="form-control"
+                        placeholder="Részfolyamat leírása"></textarea>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="procDurId">Időtartam (perc)</label>
+              <input type="text" formControlName="duration" id="procDurId" class="form-control"
+                     placeholder="Időtartam"/>
+            </div>
+            <!--Buttons START-->
+            <div *ngIf="processes.length > 1" class="form-group col-md-4">
+              <button type="button" class="btn btn-danger" (click)="removeProcess(i)">Törlés</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-secondary" (click)="addProcess()">Új elkészítés</button>
+            </div>
+            <!--Buttons END-->
+          </div>
+        </div>
+        <!--=======================-->
+        <!--Process section END-->
+        <!--=======================-->
+
+        <!--=======================-->
+        <!--Calorie section  START-->
+        <!--=======================-->
+
+        <div class="flex-row">
+          <div class="form-group">
+            <label for="calorieId">Kalória</label>
+            <input type="text" class="form-control" name="calorie" id="calorieId" formControlName="calorie"
+                   placeholder="Kalória"/>
+            <!--Validation START-->
+            <div class="alert"
+                 *ngIf="!recipeForm.controls['calorie'].valid && recipeForm.controls['calorie'].touched">
+              A kalória üres vagy nem megfelelő
+            </div>
+            <!--Validation END-->
+          </div>
+        </div>
+
+        <!--=======================-->
+        <!--Calorie section END-->
+        <!--=======================-->
+
+        <!--=======================-->
+        <!--Price section START-->
+        <!--=======================-->
+
+        <div class="flex-row">
+          <div class="form-group">
+            <label for="priceId">Árkategória</label>
+            <input type="text" class="form-control" name="price" id="priceId" formControlName="price"
+                   placeholder="Árkategória"/>
+            <!--Validation START-->
+            <div class="alert"
+                 *ngIf="!recipeForm.controls['price'].valid && recipeForm.controls['price'].touched">
+              Az árkategória üres vagy nem megfelelő
+            </div>
+            <!--Validation END-->
+          </div>
+        </div>
+
+        <!--=======================-->
+        <!--Price section END-->
+        <!--=======================-->
+
+        <!--=======================-->
+        <!--Category section START-->
+        <!--=======================-->
+
+        <div class="flex-row">
           <div class="form-group col-md-4">
-            <label for="unitId">Mértékegység</label>
-            <input type="text" formControlName="unit" id="unitId" class="form-control" placeholder="mértékegység"/>
+            <label for="categoryId">Kategória</label>
+            <select name="unit" id="categoryId" formControlName="category" class="form-control">
+              <option value="soup">Leves</option>
+              <option value="mainCourse">Főétel</option>
+              <option value="salad">Saláta</option>
+              <option value="dessert">Desszert</option>
+            </select>
           </div>
-          <!--Buttons START-->
-          <div *ngIf="ingredients.length > 1" class="form-group col-md-4">
-            <button type="button" class="btn btn-danger" (click)="removeIngredient(i)">Törlés</button>
-          </div>
-          <div class="form-group col-md-4">
-            <button type="button" class="btn btn-secondary" (click)="addIngredient()">Új összetevő</button>
-          </div>
-          <!--Buttons END-->
         </div>
-      </div>
-      <!--=======================-->
-      <!--Ingredients section END-->
-      <!--=======================-->
 
-      <!--=======================-->
-      <!--Preparation section START-->
-      <!--=======================-->
-      <div class="flex-row">
-        <p class="h2">Előkészítési folyamatok</p>
-      </div>
-      <!--Validation START-->
-      <div class="alert"
-           *ngIf="!recipeForm.controls['preparations'].valid && recipeForm.controls['preparations'].touched">Ellenőrízd
-        az előkészítési folyamatokat.
-      </div>
-      <!--Validation END-->
-      <div class="form-row" formArrayName="preparations"
-           *ngFor="let preparation of preparations.controls; let i = index;">
-        <div [formGroupName]="i" class="flex-row">
-          <div class="form-group col-md-6">
-            <label for="preDescId">Előkészítés leírása</label>
-            <textarea formControlName="description" id="preDescId" class="form-control"
-                      placeholder="Előkészítés leírása"></textarea>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="preDescId">Időtartam (perc)</label>
-            <input type="text" formControlName="duration" id="preDurationId" class="form-control"
-                   placeholder="Időtartam"/>
-          </div>
-          <!--Buttons START-->
-          <div *ngIf="preparations.length > 1" class="form-group col-md-4">
-            <button type="button" class="btn btn-danger" (click)="removePreparation(i)">Törlés</button>
-          </div>
-          <div class="form-group col-md-4">
-            <button type="button" class="btn btn-secondary" (click)="addPreparation()">Új előkészítés</button>
-          </div>
-          <!--Buttons END-->
+        <!--=======================-->
+        <!--Category section END-->
+        <!--=======================-->
+
+        <!--=======================-->
+        <!--Response messages START-->
+        <!--=======================-->
+
+        <div class="alert alert-danger" role="alert" *ngIf="responseErrorMsg !== '' && responseErrorMsg !== undefined">
+          {{ responseErrorMsg }}
         </div>
-      </div>
-      <!--=======================-->
-      <!--Preparation section END-->
-      <!--=======================-->
 
-      <!--=======================-->
-      <!--Process section START-->
-      <!--=======================-->
-      <div class="flex-row">
-        <p class="h2">Elkészítési folyamatok</p>
-      </div>
-      <!--Validation START-->
-      <div class="alert" *ngIf="!recipeForm.controls['processes'].valid && recipeForm.controls['processes'].touched">
-        Ellenőrízd az ellenőrzési folyamatokat.
-      </div>
-      <!--Validation END-->
-      <div class="form-row" formArrayName="processes" *ngFor="let process of processes.controls; let i = index;">
-        <div [formGroupName]="i" class="flex-row">
-          <div class="form-group col-md-6">
-            <label for="procDescId">Elkészítés leírása</label>
-            <textarea formControlName="description" id="procDescId" class="form-control"
-                      placeholder="Részfolyamat leírása"></textarea>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="procDurId">Időtartam (perc)</label>
-            <input type="text" formControlName="duration" id="procDurId" class="form-control"
-                   placeholder="Időtartam"/>
-          </div>
-          <!--Buttons START-->
-          <div *ngIf="processes.length > 1" class="form-group col-md-4">
-            <button type="button" class="btn btn-danger" (click)="removeProcess(i)">Törlés</button>
-          </div>
-          <div class="form-group col-md-4">
-            <button type="button" class="btn btn-secondary" (click)="addProcess()">Új elkészítés</button>
-          </div>
-          <!--Buttons END-->
+        <div class="alert alert-success" role="alert" *ngIf="responseSuccessMsg !== '' && responseSuccessMsg !== undefined">
+          {{ responseSuccessMsg }}
         </div>
-      </div>
-      <!--=======================-->
-      <!--Process section END-->
-      <!--=======================-->
 
-      <!--=======================-->
-      <!--Calorie section  START-->
-      <!--=======================-->
 
-      <div class="flex-row">
-        <div class="form-group">
-          <label for="calorieId">Kalória</label>
-          <input type="text" class="form-control" name="calorie" id="calorieId" formControlName="calorie"
-                 placeholder="Kalória"/>
-          <!--Validation START-->
-          <div class="alert"
-               *ngIf="!recipeForm.controls['calorie'].valid && recipeForm.controls['calorie'].touched">
-            A kalória üres vagy nem megfelelő
-          </div>
-          <!--Validation END-->
+        <!--=======================-->
+        <!--Response messages END-->
+        <!--=======================-->
+
+        <div class="flex-row">
+          <input type="submit" class="btn btn-primary" value="Recept elküldése" [disabled]="!recipeForm.valid">
         </div>
-      </div>
-
-      <!--=======================-->
-      <!--Calorie section END-->
-      <!--=======================-->
-
-      <!--=======================-->
-      <!--Price section START-->
-      <!--=======================-->
-
-      <div class="flex-row">
-        <div class="form-group">
-          <label for="priceId">Árkategória</label>
-          <input type="text" class="form-control" name="price" id="priceId" formControlName="price"
-                 placeholder="Árkategória"/>
-          <!--Validation START-->
-          <div class="alert"
-               *ngIf="!recipeForm.controls['price'].valid && recipeForm.controls['price'].touched">
-            Az árkategória üres vagy nem megfelelő
-          </div>
-          <!--Validation END-->
-        </div>
-      </div>
-
-      <!--=======================-->
-      <!--Price section END-->
-      <!--=======================-->
-
-      <!--=======================-->
-      <!--Category section START-->
-      <!--=======================-->
-
-      <div class="flex-row">
-        <div class="form-group col-md-4">
-          <label for="categoryId">Kategória</label>
-          <select name="unit" id="categoryId" formControlName="category" class="form-control">
-            <option value="soup">Leves</option>
-            <option value="mainCourse">Főétel</option>
-            <option value="salad">Saláta</option>
-            <option value="dessert">Desszert</option>
-          </select>
-        </div>
-      </div>
-
-      <!--=======================-->
-      <!--Category section END-->
-      <!--=======================-->
-
-      <!--=======================-->
-      <!--Response messages START-->
-      <!--=======================-->
-
-      <div class="alert alert-danger" role="alert" *ngIf="responseErrorMsg !== '' && responseErrorMsg !== undefined">
-        {{ responseErrorMsg }}
-      </div>
-
-      <div class="alert alert-success" role="alert" *ngIf="responseSuccessMsg !== '' && responseSuccessMsg !== undefined">
-        {{ responseSuccessMsg }}
-      </div>
-
-
-      <!--=======================-->
-      <!--Response messages END-->
-      <!--=======================-->
-
-      <div class="flex-row">
-        <input type="submit" class="btn btn-primary" value="Recept elküldése" [disabled]="!recipeForm.valid">
-      </div>
+    </div>
     </div>
   </form>
 </div>
