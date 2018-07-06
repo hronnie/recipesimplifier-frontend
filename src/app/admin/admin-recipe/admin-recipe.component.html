@@ -11,10 +11,11 @@
           <label for="recipeNameId">Recept neve</label>
           <input type="text" class="form-control" name="recipeName" id="recipeNameId" formControlName="recipeName"
                  placeholder="Recept neve"/>
+
           <!--Validation START-->
           <div class="alert"
                *ngIf="!recipeForm.controls['recipeName'].valid && recipeForm.controls['recipeName'].touched">
-            {{ titleAlert }}
+            A név üres vagy nem megfelelő.
           </div>
           <!--Validation END-->
         </div>
@@ -82,11 +83,11 @@
         <div [formGroupName]="i" class="flex-row">
           <div class="form-group col-md-6">
             <label for="preDescId">Előkészítés leírása</label>
-            <input type="text" formControlName="description" id="preDescId" class="form-control"
-                   placeholder="Előkészítés leírása"/>
+            <textarea formControlName="description" id="preDescId" class="form-control"
+                      placeholder="Előkészítés leírása"></textarea>
           </div>
           <div class="form-group col-md-6">
-            <label for="preDescId">Időtartam</label>
+            <label for="preDescId">Időtartam (perc)</label>
             <input type="text" formControlName="duration" id="preDurationId" class="form-control"
                    placeholder="Időtartam"/>
           </div>
@@ -95,7 +96,7 @@
             <button type="button" class="btn btn-danger" (click)="removePreparation(i)">Törlés</button>
           </div>
           <div class="form-group col-md-4">
-            <button type="button" class="btn btn-secondary" (click)="addPreparation()">Új összetevő</button>
+            <button type="button" class="btn btn-secondary" (click)="addPreparation()">Új előkészítés</button>
           </div>
           <!--Buttons END-->
         </div>
@@ -112,18 +113,18 @@
       </div>
       <!--Validation START-->
       <div class="alert" *ngIf="!recipeForm.controls['processes'].valid && recipeForm.controls['processes'].touched">
-        Minden folyamatot ki kell tölteni
+        Ellenőrízd az ellenőrzési folyamatokat.
       </div>
       <!--Validation END-->
       <div class="form-row" formArrayName="processes" *ngFor="let process of processes.controls; let i = index;">
         <div [formGroupName]="i" class="flex-row">
           <div class="form-group col-md-6">
             <label for="procDescId">Elkészítés leírása</label>
-            <input type="text" formControlName="description" id="procDescId" class="form-control"
-                   placeholder="Részfolyamat leírása"/>
+            <textarea formControlName="description" id="procDescId" class="form-control"
+                      placeholder="Részfolyamat leírása"></textarea>
           </div>
           <div class="form-group col-md-6">
-            <label for="procDurId">Időtartam</label>
+            <label for="procDurId">Időtartam (perc)</label>
             <input type="text" formControlName="duration" id="procDurId" class="form-control"
                    placeholder="Időtartam"/>
           </div>
@@ -132,7 +133,7 @@
             <button type="button" class="btn btn-danger" (click)="removeProcess(i)">Törlés</button>
           </div>
           <div class="form-group col-md-4">
-            <button type="button" class="btn btn-secondary" (click)="addProcess()">Új összetevő</button>
+            <button type="button" class="btn btn-secondary" (click)="addProcess()">Új elkészítés</button>
           </div>
           <!--Buttons END-->
         </div>
@@ -153,7 +154,7 @@
           <!--Validation START-->
           <div class="alert"
                *ngIf="!recipeForm.controls['calorie'].valid && recipeForm.controls['calorie'].touched">
-            {{ titleAlert }}
+            A kalória üres vagy nem megfelelő
           </div>
           <!--Validation END-->
         </div>
@@ -175,7 +176,7 @@
           <!--Validation START-->
           <div class="alert"
                *ngIf="!recipeForm.controls['price'].valid && recipeForm.controls['price'].touched">
-            {{ titleAlert }}
+            Az árkategória üres vagy nem megfelelő
           </div>
           <!--Validation END-->
         </div>
