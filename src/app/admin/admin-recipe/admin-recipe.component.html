@@ -4,6 +4,21 @@
 
     <div class="flex-column">
       <!--=======================-->
+      <!--Response messages START-->
+      <!--=======================-->
+
+      <div class="alert alert-danger" role="alert" *ngIf="responseErrorMsg !== '' && responseErrorMsg !== undefined">
+        {{ responseErrorMsg }}
+      </div>
+
+      <div class="alert alert-success" role="alert" *ngIf="responseSuccessMsg !== '' && responseSuccessMsg !== undefined">
+        {{ responseSuccessMsg }}
+      </div>
+
+      <!--=======================-->
+      <!--Response messages END-->
+      <!--=======================-->
+      <!--=======================-->
       <!--Name section START-->
       <!--=======================-->
       <div class="flex-row">
@@ -206,8 +221,26 @@
       <!--Category section END-->
       <!--=======================-->
 
+      <!--=======================-->
+      <!--Response messages START-->
+      <!--=======================-->
+
+      <div class="alert alert-danger" role="alert" *ngIf="responseErrorMsg !== '' && responseErrorMsg !== undefined">
+        {{ responseErrorMsg }}
+      </div>
+
+      <div class="alert alert-success" role="alert" *ngIf="responseSuccessMsg !== '' && responseSuccessMsg !== undefined">
+        {{ responseSuccessMsg }}
+      </div>
+
+
+      <!--=======================-->
+      <!--Response messages END-->
+      <!--=======================-->
+
       <div class="flex-row">
-        <input type="submit" class="btn btn-primary" value="Recept elkéldése" [disabled]="!recipeForm.valid">
+        <!--<input type="submit" class="btn btn-primary" value="Recept elküldése" >-->
+        <input type="submit" class="btn btn-primary" value="Recept elküldése" [disabled]="!recipeForm.valid">
       </div>
     </div>
   </form>
