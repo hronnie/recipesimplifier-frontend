@@ -12,6 +12,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AdminRecipeComponent   {
 
   recipeForm: FormGroup;
+  responseSuccessMsg: String;
+  responseErrorMsg: String;
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) {
 
@@ -93,6 +95,8 @@ export class AdminRecipeComponent   {
   ngOnInit() {  }
 
   addPost(post) {
+    this.responseSuccessMsg = "";
+    this.responseErrorMsg = "";
     this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe',
       {name: post.recipeName,
               ingredients: post.ingredients,
@@ -102,7 +106,21 @@ export class AdminRecipeComponent   {
               price: post.price,
               category: post.category
       })
-      .subscribe(res => console.log(res.toString()));
+      .subscribe(res =>
+      {
+        this.responseSuccessMsg = "A recept sikeresen el lett tárolva :) ";
+        this.recipeForm.reset();
+      }, err => {
+        if (err.status === 422) {
+          this.responseErrorMsg = "Az elküldött recept nem megfelelő";
+        } else if (err.status === 401) {
+          this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
+        } else if (err.status === 500) {
+          this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
+        } else {
+          this.responseErrorMsg = "Ismeretlen hiba"
+        }
+        }
+      );
   }
-
 }
