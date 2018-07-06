@@ -4,6 +4,7 @@ import { AdminMainComponent } from './admin-main/admin-main.component';
 import { AdminRecipeComponent } from './admin-recipe/admin-recipe.component';
 import { routing } from '../app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminRecipeEditComponent } from './admin-recipe-edit/admin-recipe-edit.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [AdminMainComponent, AdminRecipeComponent]
+  declarations: [AdminMainComponent, AdminRecipeComponent, AdminRecipeEditComponent]
 })
 export class AdminModule { }
