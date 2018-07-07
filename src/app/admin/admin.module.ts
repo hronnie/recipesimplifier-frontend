@@ -5,13 +5,15 @@ import { AdminRecipeComponent } from './admin-recipe/admin-recipe.component';
 import { routing } from '../app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminRecipeEditComponent } from './admin-recipe-edit/admin-recipe-edit.component';
+import {MatFormFieldModule} from "@angular/material";
 
 @NgModule({
   imports: [
     CommonModule,
     routing,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule
   ],
   declarations: [AdminMainComponent, AdminRecipeComponent, AdminRecipeEditComponent]
 })
