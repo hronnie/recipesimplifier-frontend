@@ -19,7 +19,7 @@
     "@angular/core": "^6.0.7",
     "@angular/forms": "^6.0.7",
     "@angular/http": "^6.0.7",
-    "@angular/material": "^6.0.0",
+    "@angular/material": "^6.3.2",
     "@angular/platform-browser": "^6.0.7",
     "@angular/platform-browser-dynamic": "^6.0.7",
     "@angular/router": "^6.0.7",
@@ -28,9 +28,11 @@
     "core-js": "^2.4.1",
     "jquery": "^1.9.1",
     "npm": "^6.1.0",
+    "parse5": "^5.0.0",
     "popper.js": "^1.14.3",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
+    "tslib": "^1.9.3",
     "zone.js": "^0.8.18"
   },
   "devDependencies": {
