@@ -34,7 +34,7 @@
 
 
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Choose a user" [matAutocomplete]="auto" formControlName='recipeName'>
+            <input matInput placeholder="Kezd el gépelni a recept nevét.." [matAutocomplete]="auto" formControlName='recipeName'>
           </mat-form-field>
           <span>Your choice is: {{recipeForm.get('recipeName').value | json}}</span>
 
