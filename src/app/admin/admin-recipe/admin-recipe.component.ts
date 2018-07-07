@@ -97,7 +97,7 @@ export class AdminRecipeComponent   {
   addPost(post) {
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
-    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe',
+    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe',
       {name: post.recipeName,
               ingredients: post.ingredients,
               preparations: post.preparations,

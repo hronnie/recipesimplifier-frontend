@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppSettings} from "../../_commons";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import {RecipeService} from "../../_services";
+import {Observable} from "rxjs/Observable";
+import {Recipe} from "../../_models";
+import {switchMap, debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-recipe-edit',
@@ -14,8 +18,11 @@ export class AdminRecipeEditComponent implements OnInit {
   responseSuccessMsg: String;
   responseErrorMsg: String;
   isRecipeLoded: boolean;
+  filteredRecipes: Observable<Recipe>;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(private formBuilder: FormBuilder,
+              private http: HttpClient,
+              private recipeService: RecipeService) {
 
     this.recipeForm = formBuilder.group({
       recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
@@ -28,6 +35,11 @@ export class AdminRecipeEditComponent implements OnInit {
     });
 
     this.isRecipeLoded = false;
+    this.filteredRecipes = this.recipeForm.get('recipeName').valueChanges
+      .pipe(
+        debounceTime(300),
+        switchMap(value => this.recipeService.search({name: value}, 1))
+      );
 
   }
 
@@ -99,7 +111,7 @@ export class AdminRecipeEditComponent implements OnInit {
   addPost(post) {
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
-    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/newrecipe',
+    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe',
       {name: post.recipeName,
         ingredients: post.ingredients,
         preparations: post.preparations,

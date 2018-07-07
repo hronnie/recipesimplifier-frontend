@@ -14,18 +14,17 @@ import { fakeBackendProvider } from './_helpers/index';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor } from './_helpers/index';
-import { AlertService, AuthenticationService } from './_services/index';
+import {AlertService, AuthenticationService, RecipeService} from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
-import { AdminMainComponent } from './admin/index';
-import { AdminRecipeComponent } from './admin/index';
 import { ContactComponent } from './contact/index';
 import { FooterComponent, HeaderComponent } from './shared/layout/index';
 import { RecipeComponent } from './recipe/recipe.component';
 import { SearchComponent } from './search/search.component';
 import { BlogComponent } from './blog/blog.component';
 import { RegistrationComponent } from './registration/registration.component';
-
+import {MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatButtonModule} from '@angular/material';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -49,11 +48,24 @@ import { RegistrationComponent } from './registration/registration.component';
     routing,
     HttpClientModule,
     ReactiveFormsModule,
-    AdminModule
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    AdminModule,
+  ],
+  exports: [
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatButtonModule,
   ],
   providers: [
     AuthGuard,
     AlertService,
+    RecipeService,
     AuthenticationService,
     {
         provide: HTTP_INTERCEPTORS,

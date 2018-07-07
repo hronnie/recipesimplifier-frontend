@@ -23,9 +23,28 @@
       <!--=======================-->
       <div class="flex-row">
         <div class="form-group">
-          <label for="recipeNameId">Recept neve</label>
-          <input type="text" class="form-control" name="recipeName" id="recipeNameId" formControlName="recipeName"
-                 placeholder="Kezd el gépelni a recept nevét.."/>
+          <!--<label for="recipeNameId">Recept neve</label>-->
+          <!--<input type="text" class="form-control" name="recipeName" id="recipeNameId" formControlName="recipeName"-->
+                 <!--placeholder="Kezd el gépelni a recept nevét.."/>-->
+
+          <!--<mat-form-field >-->
+            <!--<input matInput placeholder="Kezd el gépelni a recept nevét.." [matAutocomplete]="auto" formControlName='recipeName'>-->
+          <!--</mat-form-field>-->
+
+
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Choose a user" [matAutocomplete]="auto" formControlName='recipeName'>
+          </mat-form-field>
+          <span>Your choice is: {{recipeForm.get('recipeName').value | json}}</span>
+
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let recipe of (filteredRecipes | async)?.results" [value]="recipe">
+              <span>{{ recipe.name }}</span>
+              <small> | ID: {{recipe.id}}</small>
+            </mat-option>
+          </mat-autocomplete>
+
 
           <!--Validation START-->
           <div class="alert"
