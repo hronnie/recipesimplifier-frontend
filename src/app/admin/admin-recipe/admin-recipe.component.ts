@@ -22,7 +22,7 @@ export class AdminRecipeComponent   {
       preparations: this.formBuilder.array([ this.createPreparation()]),
       ingredients: this.formBuilder.array([ this.createIngredient()]),
       processes: this.formBuilder.array([ this.createProcess()]),
-      calorie: [null, Validators.required],
+      calorie: [null, null],
       price: [null, Validators.required],
       category: [null, Validators.required]
     });
@@ -97,6 +97,10 @@ export class AdminRecipeComponent   {
   addPost(post) {
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
+    if (post.calorie == null) {
+      post.calorie = "-";
+    }
+
     this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe',
       {name: post.recipeName,
               ingredients: post.ingredients,
