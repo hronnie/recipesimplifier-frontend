@@ -43,6 +43,12 @@ export class AdminRecipeEditComponent implements OnInit {
 
   }
 
+  displayFn(recipe: Recipe) {
+    if (recipe) {
+      return recipe.name;
+    }
+  }
+
   // preparations related methods
 
   createPreparation(): FormGroup {

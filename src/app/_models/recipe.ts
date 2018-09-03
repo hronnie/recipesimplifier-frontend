@@ -4,20 +4,13 @@ import {RecipeProcess} from "./recipeProcess";
 
 export class Recipe {
 
-  constructor(public id: number,
+  constructor(public recipeId: number,
               public name: string,
               public calorie: number,
               public price: number,
-              public Ingredient: Ingredient,
-              public Preparation: Preparation,
-              public RecipeProcess: RecipeProcess) {}
-
-  id: number;
-  name: string;
-  calorie: number;
-  price: number;
-  Ingredient: Ingredient[];
-  Preparation: Preparation[];
-  RecipeProcess: RecipeProcess[];
+              public category: string,
+              public ingredients: Ingredient[],
+              public preparations: Preparation[],
+              public recipeProcesses: RecipeProcess[]) {}
 
 }

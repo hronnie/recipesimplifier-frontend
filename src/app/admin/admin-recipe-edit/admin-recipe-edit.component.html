@@ -1,5 +1,5 @@
 <div *ngIf="!recipeName; else forminfo">
-  <form [formGroup]="recipeForm" (ngSubmit)="addPost(recipeForm.value)">
+  <form [formGroup]="recipeForm" (ngSubmit)="addPost(recipeForm.value)" class="editForm">
     <p class="h1">Receptek szerkesztése</p>
 
     <div class="flex-column">
@@ -22,26 +22,15 @@
       <!--Name section START-->
       <!--=======================-->
       <div class="flex-row">
-        <div class="form-group">
-          <!--<label for="recipeNameId">Recept neve</label>-->
-          <!--<input type="text" class="form-control" name="recipeName" id="recipeNameId" formControlName="recipeName"-->
-                 <!--placeholder="Kezd el gépelni a recept nevét.."/>-->
+        <div class="form-group search-form">
 
-          <!--<mat-form-field >-->
-            <!--<input matInput placeholder="Kezd el gépelni a recept nevét.." [matAutocomplete]="auto" formControlName='recipeName'>-->
-          <!--</mat-form-field>-->
-
-
-
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Kezd el gépelni a recept nevét.." [matAutocomplete]="auto" formControlName='recipeName'>
+          <mat-form-field>
+            <input type="text" placeholder="Recept neve.." matInput formControlName='recipeName' [matAutocomplete]="auto">
           </mat-form-field>
-          <span>Your choice is: {{recipeForm.get('recipeName').value | json}}</span>
 
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let recipe of (filteredRecipes | async)?.results" [value]="recipe">
-              <span>{{ recipe.name }}</span>
-              <small> | ID: {{recipe.id}}</small>
+          <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayFn">
+            <mat-option *ngFor="let recipe of (filteredRecipes | async)" [value]="recipe">
+              {{ recipe.name }} - {{recipe.recipeId}}
             </mat-option>
           </mat-autocomplete>
 
