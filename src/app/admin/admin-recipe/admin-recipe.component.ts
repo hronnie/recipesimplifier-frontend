@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppSettings} from "../../_commons";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {UploadFileService} from "../../_services";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-admin-recipe',
@@ -15,7 +17,10 @@ export class AdminRecipeComponent   {
   responseSuccessMsg: String;
   responseErrorMsg: String;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  showFile = false;
+  fileUploads: Observable<string[]>;
+
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private uploadService: UploadFileService) {
 
     this.recipeForm = formBuilder.group({
       recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
@@ -93,6 +98,14 @@ export class AdminRecipeComponent   {
     this.processes.removeAt(index);
   }
   ngOnInit() {  }
+
+  showFiles(enable: boolean) {
+    this.showFile = enable;
+
+    if (enable) {
+      this.fileUploads = this.uploadService.getFiles();
+    }
+  }
 
   addPost(post) {
     this.responseSuccessMsg = "";
