@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppSettings} from "../../_commons";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {UploadFileService} from "../../_services";
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import { UploadFileService } from "../../_services";
 import {Observable} from "rxjs";
+import {RequestMethod} from "@angular/http";
 
 @Component({
   selector: 'app-admin-recipe',
@@ -17,8 +18,9 @@ export class AdminRecipeComponent   {
   responseSuccessMsg: String;
   responseErrorMsg: String;
 
-  showFile = false;
-  fileUploads: Observable<string[]>;
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private uploadService: UploadFileService) {
 
@@ -99,15 +101,29 @@ export class AdminRecipeComponent   {
   }
   ngOnInit() {  }
 
-  showFiles(enable: boolean) {
-    this.showFile = enable;
-
-    if (enable) {
-      this.fileUploads = this.uploadService.getFiles();
-    }
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
   }
 
+  // upload() {
+  //   this.progress.percentage = 0;
+  //
+  //   this.currentFileUpload = this.selectedFiles.item(0);
+  //   this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+  //     if (event.type === HttpEventType.UploadProgress) {
+  //       this.progress.percentage = Math.round(100 * event.loaded / event.total);
+  //     } else if (event instanceof HttpResponse) {
+  //       console.log('File is completely uploaded!');
+  //     }
+  //   });
+  //
+  //   this.selectedFiles = undefined;
+  // }
+
+
+
   addPost(post) {
+    //this.currentFileUpload = this.selectedFiles.item(0);
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
     if (post.calorie == null) {
@@ -121,7 +137,9 @@ export class AdminRecipeComponent   {
               processes: post.processes,
               calorie: post.calorie,
               price: post.price,
-              category: post.category
+              category: post.category,
+              recipeImg1: this.currentFileUpload
+
       })
       .subscribe(res =>
       {
@@ -139,5 +157,6 @@ export class AdminRecipeComponent   {
         }
         }
       );
+    this.selectedFiles = undefined;
   }
 }
