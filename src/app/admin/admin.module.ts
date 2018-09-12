@@ -10,6 +10,7 @@ import { FormUploadComponent } from './form-upload/form-upload.component';
 import { ListUploadComponent } from './list-upload/list-upload.component';
 import { DetailsUploadComponent } from './details-upload/details-upload.component';
 import { IngredientInfoComponent } from './ingredient-info/ingredient-info.component';
+import {AgGridModule} from "ag-grid-angular";
 
 @NgModule({
   imports: [
@@ -21,7 +22,15 @@ import { IngredientInfoComponent } from './ingredient-info/ingredient-info.compo
     MatAutocompleteModule,
     MatFormFieldModule,
     MatButtonModule,
+    AgGridModule.withComponents([IngredientInfoComponent])
   ],
-  declarations: [AdminMainComponent, AdminRecipeComponent, AdminRecipeEditComponent, FormUploadComponent, ListUploadComponent, DetailsUploadComponent, IngredientInfoComponent]
+  declarations: [
+    AdminMainComponent,
+    AdminRecipeComponent,
+    AdminRecipeEditComponent,
+    FormUploadComponent,
+    ListUploadComponent,
+    DetailsUploadComponent,
+    IngredientInfoComponent]
 })
 export class AdminModule { }
