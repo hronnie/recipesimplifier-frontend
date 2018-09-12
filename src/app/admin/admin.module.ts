@@ -9,6 +9,7 @@ import {MatAutocompleteModule, MatButtonModule, MatFormFieldModule, MatInputModu
 import { FormUploadComponent } from './form-upload/form-upload.component';
 import { ListUploadComponent } from './list-upload/list-upload.component';
 import { DetailsUploadComponent } from './details-upload/details-upload.component';
+import { IngredientInfoComponent } from './ingredient-info/ingredient-info.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import { DetailsUploadComponent } from './details-upload/details-upload.componen
     MatFormFieldModule,
     MatButtonModule,
   ],
-  declarations: [AdminMainComponent, AdminRecipeComponent, AdminRecipeEditComponent, FormUploadComponent, ListUploadComponent, DetailsUploadComponent]
+  declarations: [AdminMainComponent, AdminRecipeComponent, AdminRecipeEditComponent, FormUploadComponent, ListUploadComponent, DetailsUploadComponent, IngredientInfoComponent]
 })
 export class AdminModule { }
