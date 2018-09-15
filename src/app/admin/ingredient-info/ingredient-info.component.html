@@ -5,6 +5,11 @@
   [columnDefs]="columnDefs"
   [enableSorting]="true"
   [enableFilter]="true"
+  [rowSelection]="rowSelection"
+  [animateRows]="true"
   (cellValueChanged)="onCellValueChanged($event)"
+  (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
+<a (click)="onAddRow()" class="btn btn-primary btn-lg" role="button">Új</a>
+<a (click)="onRemoveSelected()" class="btn btn-primary btn-lg" role="button">Kijelölt törlése</a>

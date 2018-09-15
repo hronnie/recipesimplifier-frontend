@@ -39,8 +39,9 @@ export class IngredientInfoService {
       );
   }
 
-  delete(ingrInfoId: number): Observable<IngredientInfo> {
-    return this.http.delete<IngredientInfo>(AppSettings.RECIPE_BASE_DOMAIN + ingrInfoId)
+  delete(inputDto: IngredientInfo): Observable<IngredientInfo> {
+    let url = AppSettings.INGREDIENT_INFO_URL + inputDto.ingredientInfoId;
+    return this.http.delete<IngredientInfo>(url)
       .pipe(
         tap((response: IngredientInfo) => {
           return response;

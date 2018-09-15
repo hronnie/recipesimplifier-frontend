@@ -1,5 +1,5 @@
 export class IngredientInfo {
-  id: number;
+  ingredientInfoId: number;
   name: string;
   description: string;
 }
