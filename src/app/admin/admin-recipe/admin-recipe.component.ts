@@ -130,6 +130,8 @@ export class AdminRecipeComponent   {
       post.calorie = "-";
     }
 
+    // TODO: extract it to a separate service
+
     this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe',
       {name: post.recipeName,
               ingredients: post.ingredients,

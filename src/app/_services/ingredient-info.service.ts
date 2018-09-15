@@ -11,7 +11,36 @@ export class IngredientInfoService {
   constructor(private http: HttpClient) {}
 
   findAll(): Observable<IngredientInfo> {
-    return this.http.get<IngredientInfo>(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/ingredientinfo/')
+    return this.http.get<IngredientInfo>(AppSettings.INGREDIENT_INFO_URL)
+      .pipe(
+        tap((response: IngredientInfo) => {
+          return response;
+        })
+      );
+  }
+
+  create(inputDto: IngredientInfo): Observable<IngredientInfo> {
+    return this.http.post<IngredientInfo>(AppSettings.INGREDIENT_INFO_URL,
+      inputDto)
+      .pipe(
+        tap((response: IngredientInfo) => {
+          return response;
+        })
+      );
+  }
+
+  update(inputDto: IngredientInfo): Observable<IngredientInfo> {
+    return this.http.put<IngredientInfo>(AppSettings.INGREDIENT_INFO_URL,
+      inputDto)
+      .pipe(
+        tap((response: IngredientInfo) => {
+          return response;
+        })
+      );
+  }
+
+  delete(ingrInfoId: number): Observable<IngredientInfo> {
+    return this.http.delete<IngredientInfo>(AppSettings.RECIPE_BASE_DOMAIN + ingrInfoId)
       .pipe(
         tap((response: IngredientInfo) => {
           return response;

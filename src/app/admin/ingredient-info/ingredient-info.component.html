@@ -5,5 +5,6 @@
   [columnDefs]="columnDefs"
   [enableSorting]="true"
   [enableFilter]="true"
+  (cellValueChanged)="onCellValueChanged($event)"
 >
 </ag-grid-angular>

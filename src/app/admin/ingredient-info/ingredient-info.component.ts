@@ -10,8 +10,8 @@ import {HttpClient} from "@angular/common/http";
 export class IngredientInfoComponent implements OnInit {
 
   columnDefs = [
-    {headerName: 'Name', field: 'name' },
-    {headerName: 'Description', field: 'description' },
+    {headerName: 'Name', field: 'name', editable: true},
+    {headerName: 'Description', field: 'description', editable: true },
   ];
 
   rowData: any;
@@ -21,4 +21,13 @@ export class IngredientInfoComponent implements OnInit {
     this.rowData = this.ingrInfoService.findAll();
   }
 
+  onCellValueChanged(params: any) {
+    this.ingrInfoService.update(params.data)
+      .subscribe(
+        savedIngredientInfo => {
+          console.log('Ingredient info Saved');
+        },
+        error => console.log(error)
+      )
+  }
 }
