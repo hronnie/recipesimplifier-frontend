@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {IngredientInfoService} from "../../_services";
-import {HttpClient} from "@angular/common/http";
-import {IngredientInfo} from "../../_models";
 
 @Component({
   selector: 'app-ingredient-info',
@@ -79,8 +77,7 @@ export class IngredientInfoComponent implements OnInit {
         )
     }
 
-
-    var res = this.gridApi.updateRowData({ remove: selectedData });
+    let res = this.gridApi.updateRowData({ remove: selectedData });
   }
 
 }

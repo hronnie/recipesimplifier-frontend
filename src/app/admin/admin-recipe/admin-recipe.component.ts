@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppSettings} from "../../_commons";
 import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import { UploadFileService } from "../../_services";
+import {RecipeService, UploadFileService} from "../../_services";
 import {Observable} from "rxjs";
 import {RequestMethod} from "@angular/http";
 
@@ -22,7 +22,10 @@ export class AdminRecipeComponent   {
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private uploadService: UploadFileService) {
+  constructor(private formBuilder: FormBuilder,
+              private http: HttpClient,
+              private uploadService: UploadFileService,
+              private recipeService: RecipeService) {
 
     this.recipeForm = formBuilder.group({
       recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
@@ -130,35 +133,36 @@ export class AdminRecipeComponent   {
       post.calorie = "-";
     }
 
-    // TODO: extract it to a separate service
+    let inputDto = {
+      recipeId: null,
+      name: post.recipeName,
+      calorie: post.calorie,
+      price: post.price,
+      category: post.category,
+      ingredients: post.ingredients,
+      preparations: post.preparations,
+      processes: post.processes
+    }
 
-    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe',
-      {name: post.recipeName,
-              ingredients: post.ingredients,
-              preparations: post.preparations,
-              processes: post.processes,
-              calorie: post.calorie,
-              price: post.price,
-              category: post.category,
-              recipeImg1: this.currentFileUpload
-
-      })
+    this.recipeService.create(inputDto)
       .subscribe(res =>
-      {
-        this.responseSuccessMsg = "A recept sikeresen el lett tárolva :) ";
-        this.recipeForm.reset();
-      }, err => {
-        if (err.status === 422) {
-          this.responseErrorMsg = "Az elküldött recept nem megfelelő";
-        } else if (err.status === 401) {
-          this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
-        } else if (err.status === 500) {
-          this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
-        } else {
-          this.responseErrorMsg = "Ismeretlen hiba"
-        }
+        {
+          this.responseSuccessMsg = "A recept sikeresen el lett tárolva :) ";
+          this.recipeForm.reset();
+        }, err => {
+          if (err.status === 422) {
+            this.responseErrorMsg = "Az elküldött recept nem megfelelő";
+          } else if (err.status === 401) {
+            this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
+          } else if (err.status === 500) {
+            this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
+          } else {
+            this.responseErrorMsg = "Ismeretlen hiba"
+          }
         }
       );
+
+
     this.selectedFiles = undefined;
   }
 }
