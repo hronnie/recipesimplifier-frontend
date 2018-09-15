@@ -19,11 +19,11 @@ export class IngredientInfoService {
       );
   }
 
-  create(inputDto: IngredientInfo): Observable<IngredientInfo> {
+  create(inputDto: IngredientInfo): Observable<String> {
     return this.http.post<IngredientInfo>(AppSettings.INGREDIENT_INFO_URL,
       inputDto)
       .pipe(
-        tap((response: IngredientInfo) => {
+        tap((response: String) => {
           return response;
         })
       );
@@ -39,11 +39,11 @@ export class IngredientInfoService {
       );
   }
 
-  delete(inputDto: IngredientInfo): Observable<IngredientInfo> {
+  delete(inputDto: IngredientInfo): Observable<String> {
     let url = AppSettings.INGREDIENT_INFO_URL + inputDto.ingredientInfoId;
-    return this.http.delete<IngredientInfo>(url)
+    return this.http.delete<String>(url)
       .pipe(
-        tap((response: IngredientInfo) => {
+        tap((response: String) => {
           return response;
         })
       );

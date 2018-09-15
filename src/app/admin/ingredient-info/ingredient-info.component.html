@@ -1,3 +1,12 @@
+
+<h1>Hozzávaló infó szerkesztése</h1>
+<div class="alert alert-danger" role="alert" *ngIf="responseErrorMsg !== '' && responseErrorMsg !== undefined">
+  {{ responseErrorMsg }}
+</div>
+
+<div class="alert alert-success" role="alert" *ngIf="responseSuccessMsg !== '' && responseSuccessMsg !== undefined">
+  {{ responseSuccessMsg }}
+</div>
 <ag-grid-angular
   style="width: 500px; height: 500px;"
   class="ag-theme-balham"
@@ -13,3 +22,11 @@
 </ag-grid-angular>
 <a (click)="onAddRow()" class="btn btn-primary btn-lg" role="button">Új</a>
 <a (click)="onRemoveSelected()" class="btn btn-primary btn-lg" role="button">Kijelölt törlése</a>
+
+<div class="alert alert-danger" role="alert" *ngIf="responseErrorMsg !== '' && responseErrorMsg !== undefined">
+  {{ responseErrorMsg }}
+</div>
+
+<div class="alert alert-success" role="alert" *ngIf="responseSuccessMsg !== '' && responseSuccessMsg !== undefined">
+  {{ responseSuccessMsg }}
+</div>

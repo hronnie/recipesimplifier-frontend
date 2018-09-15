@@ -17,6 +17,8 @@ export class IngredientInfoComponent implements OnInit {
   private rowSelection;
   private gridApi;
   private gridColumnApi;
+  responseSuccessMsg: String;
+  responseErrorMsg: String;
 
   constructor(private ingrInfoService: IngredientInfoService) {
     this.rowSelection = "multiple";
@@ -27,13 +29,23 @@ export class IngredientInfoComponent implements OnInit {
   }
 
   onCellValueChanged(params: any) {
+    debugger;
     this.ingrInfoService.update(params.data)
-      .subscribe(
-        savedIngredientInfo => {
-          console.log('Ingredient info Saved');
-        },
-        error => console.log(error)
-      )
+      .subscribe(res =>
+        {
+          this.responseSuccessMsg = "A hozzávaló infó sikeresen módosítva lett :) ";
+        }, err => {
+          if (err.status === 422) {
+            this.responseErrorMsg = "Az elküldött hozzávaló infó nem megfelelő";
+          } else if (err.status === 401) {
+            this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
+          } else if (err.status === 500) {
+            this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
+          } else {
+            this.responseErrorMsg = "Ismeretlen hiba"
+          }
+        }
+      );
   }
 
   onGridReady(params) {
@@ -41,24 +53,37 @@ export class IngredientInfoComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
   }
 
-  createNewRowData() {
+  createNewRowData(id) {
     return {
-      ingredientInfoId: null,
+      ingredientInfoId: id,
       name: "Új név",
       description: "Új leírás"
     }
   }
 
   onAddRow() {
-    let newItem = this.createNewRowData();
+    let newItem = this.createNewRowData(null);
     this.ingrInfoService.create(newItem)
-      .subscribe(
-        savedIngredientInfo => {
-          console.log('Ingredient info Saved');
-        },
-        error => console.log(error)
-      )
-    var res = this.gridApi.updateRowData({ add: [newItem] });
+      .subscribe(res =>
+        {
+          this.responseSuccessMsg = "A hozzávaló infó sikeresen el lett tárolva :) ";
+          debugger;
+          let idPosition = res.lastIndexOf("/");
+          let idStr = res.substring(idPosition + 1, res.length);
+          this.gridApi.updateRowData({ add: [this.createNewRowData(idStr)] });
+        }, err => {
+          if (err.status === 422) {
+            this.responseErrorMsg = "Az elküldött hozzávaló infó nem megfelelő";
+          } else if (err.status === 401) {
+            this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
+          } else if (err.status === 500) {
+            this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
+          } else {
+            this.responseErrorMsg = "Ismeretlen hiba"
+          }
+        }
+      );
+
   }
 
   onRemoveSelected() {
@@ -69,12 +94,21 @@ export class IngredientInfoComponent implements OnInit {
 
     for (let i = 0; i < selectedData.length; i++) {
       this.ingrInfoService.delete(selectedData[i])
-        .subscribe(
-          savedIngredientInfo => {
-            console.log('Ingredient info deleted');
-          },
-          error => console.log(error)
-        )
+        .subscribe(res =>
+          {
+            this.responseSuccessMsg = "A hozzávaló infó sikeresen ki lett törölve :) ";
+          }, err => {
+            if (err.status === 422) {
+              this.responseErrorMsg = "Az elküldött hozzávaló infó nem megfelelő";
+            } else if (err.status === 401) {
+              this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
+            } else if (err.status === 500) {
+              this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
+            } else {
+              this.responseErrorMsg = "Ismeretlen hiba"
+            }
+          }
+        );
     }
 
     let res = this.gridApi.updateRowData({ remove: selectedData });
