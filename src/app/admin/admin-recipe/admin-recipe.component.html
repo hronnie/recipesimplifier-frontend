@@ -90,8 +90,8 @@
 
           <div class="form-group col-md-4">
             <label for="categoryId">Infó</label>
-            <select name="unit" id="ingrInfoId" formControlName="info" class="form-control">
-              <option [ngValue]="infoItem.id" *ngFor="let infoItem of (infoRefArray | async)">{{ infoItem.name }}</option>
+            <select name="unit" id="ingrInfoId" formControlName="ingredientInfoId" class="form-control">
+              <option [ngValue]="infoItem.ingredientInfoId" *ngFor="let infoItem of (infoRefArray | async)">{{ infoItem.name }}</option>
             </select>
           </div>
           <!--Buttons START-->

@@ -74,7 +74,7 @@ export class AdminRecipeComponent   {
       name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
       unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
       quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
-      info: new FormControl('', [Validators.required])
+      ingredientInfoId: new FormControl('', [Validators.required])
     });
   }
 
