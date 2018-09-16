@@ -11,6 +11,8 @@ import { ListUploadComponent } from './list-upload/list-upload.component';
 import { DetailsUploadComponent } from './details-upload/details-upload.component';
 import { IngredientInfoComponent } from './ingredient-info/ingredient-info.component';
 import {AgGridModule} from "ag-grid-angular";
+import {ModalModule} from "ngx-modialog";
+import {BootstrapModalModule} from "ngx-modialog/plugins/bootstrap";
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import {AgGridModule} from "ag-grid-angular";
     MatAutocompleteModule,
     MatFormFieldModule,
     MatButtonModule,
-    AgGridModule.withComponents([IngredientInfoComponent])
+    AgGridModule.withComponents([IngredientInfoComponent]),
+    ModalModule.forRoot(),
+    BootstrapModalModule
   ],
   declarations: [
     AdminMainComponent,

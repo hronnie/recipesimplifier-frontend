@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import {IngredientInfoService} from "../../_services";
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Overlay } from 'ngx-modialog';
 
 @Component({
   selector: 'app-ingredient-info',
@@ -7,6 +9,25 @@ import {IngredientInfoService} from "../../_services";
   styleUrls: ['./ingredient-info.component.css']
 })
 export class IngredientInfoComponent implements OnInit {
+
+  rowData: any;
+  private rowSelection;
+  private gridApi;
+  private gridColumnApi;
+  responseSuccessMsg: String;
+  responseErrorMsg: String;
+
+  constructor(private ingrInfoService: IngredientInfoService, public modal: Modal) {
+    this.rowSelection = "multiple";
+  }
+
+  ngOnInit() {
+    this.rowData = this.ingrInfoService.findAll();
+  }
+
+  // --------------------------------------------------
+  // *****   ag grid configuration START
+  // --------------------------------------------------
 
   columnDefs = [
     {headerName: 'Name',
@@ -18,21 +39,15 @@ export class IngredientInfoComponent implements OnInit {
       cellEditor: "agLargeTextCellEditor",
       }
   ];
+  // --------------------------------------------------
+  // *****   ag grid configuration END
+  // --------------------------------------------------
 
-  rowData: any;
-  private rowSelection;
-  private gridApi;
-  private gridColumnApi;
-  responseSuccessMsg: String;
-  responseErrorMsg: String;
 
-  constructor(private ingrInfoService: IngredientInfoService) {
-    this.rowSelection = "multiple";
-  }
+  // --------------------------------------------------
+  // *****   ag grid cell manipulation methods START
+  // --------------------------------------------------
 
-  ngOnInit() {
-    this.rowData = this.ingrInfoService.findAll();
-  }
 
   onCellValueChanged(params: any) {
     this.ingrInfoService.update(params.data)
@@ -92,6 +107,30 @@ export class IngredientInfoComponent implements OnInit {
   }
 
   onRemoveSelected() {
+    const dialogRef = this.modal.confirm()
+      .size('sm')
+      .isBlocking(true)
+      .showClose(true)
+      .keyboard(27)
+      .cancelBtn("Mégse")
+      .title('Törlés megerősítése')
+      .body(`
+            <h3>Tényleg törölni akarod a hozzávaló infót?</h3>
+            `)
+      .open();
+
+    dialogRef.result
+      .then( result =>
+        {
+          if (result) {
+            this.doDelete();
+          }
+        }
+      );
+
+  }
+
+  doDelete() {
     let selectedData = this.gridApi.getSelectedRows();
     if (!selectedData || selectedData.length < 1) {
       return;
@@ -115,8 +154,12 @@ export class IngredientInfoComponent implements OnInit {
           }
         );
     }
-
     let res = this.gridApi.updateRowData({ remove: selectedData });
+    this.gridApi.sizeColumnsToFit();
   }
+
+  // --------------------------------------------------
+  // *****   ag grid cell manipulation methods END
+  // --------------------------------------------------
 
 }
