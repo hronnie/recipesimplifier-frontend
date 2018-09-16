@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppSettings} from "../../_commons";
 import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {RecipeService, UploadFileService} from "../../_services";
+import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
 import {Observable} from "rxjs";
 import {RequestMethod} from "@angular/http";
+import {IngredientInfo} from "../../_models";
 
 @Component({
   selector: 'app-admin-recipe',
@@ -21,11 +22,13 @@ export class AdminRecipeComponent   {
   selectedFiles: FileList;
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
+  infoRefArray : any;
 
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
               private uploadService: UploadFileService,
-              private recipeService: RecipeService) {
+              private recipeService: RecipeService,
+              private ingrInfoService: IngredientInfoService) {
 
     this.recipeForm = formBuilder.group({
       recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
@@ -36,7 +39,11 @@ export class AdminRecipeComponent   {
       price: [null, Validators.required],
       category: [null, Validators.required]
     });
+  }
 
+  ngOnInit() {
+    this.infoRefArray = this.ingrInfoService.findAll();
+    let i = 9;
   }
 
   // preparations related methods
@@ -66,7 +73,8 @@ export class AdminRecipeComponent   {
     return this.formBuilder.group({
       name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
       unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
-      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)])
+      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
+      info: new FormControl('', [Validators.required])
     });
   }
 
@@ -102,7 +110,6 @@ export class AdminRecipeComponent   {
   removeProcess(index): void {
     this.processes.removeAt(index);
   }
-  ngOnInit() {  }
 
   selectFile(event) {
     this.selectedFiles = event.target.files;

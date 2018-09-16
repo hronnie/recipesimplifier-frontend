@@ -11,7 +11,7 @@ export class IngredientInfoService {
   constructor(private http: HttpClient) {}
 
   findAll(): Observable<IngredientInfo> {
-    return this.http.get<IngredientInfo>(AppSettings.INGREDIENT_INFO_URL)
+    return this.http.get<Array<IngredientInfo>>(AppSettings.INGREDIENT_INFO_URL)
       .pipe(
         tap((response: IngredientInfo) => {
           return response;

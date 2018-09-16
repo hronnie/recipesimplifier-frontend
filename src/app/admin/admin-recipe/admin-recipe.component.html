@@ -77,13 +77,22 @@
             <input type="text" formControlName="name" id="ingredientNameId" class="form-control"
                    placeholder="Összetevő"/>
           </div>
+
           <div class="form-group col-md-2">
             <label for="quantityId">Mennyiség</label>
             <input type="text" formControlName="quantity" id="quantityId" class="form-control" placeholder="mennyiség"/>
           </div>
+
           <div class="form-group col-md-4">
             <label for="unitId">Mértékegység</label>
             <input type="text" formControlName="unit" id="unitId" class="form-control" placeholder="mértékegység"/>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="categoryId">Infó</label>
+            <select name="unit" id="ingrInfoId" formControlName="info" class="form-control">
+              <option [ngValue]="infoItem.id" *ngFor="let infoItem of (infoRefArray | async)">{{ infoItem.name }}</option>
+            </select>
           </div>
           <!--Buttons START-->
           <div *ngIf="ingredients.length > 1" class="form-group col-md-4">
