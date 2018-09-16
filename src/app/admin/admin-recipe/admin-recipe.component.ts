@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AppSettings} from "../../_commons";
-import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
-import {Observable} from "rxjs";
-import {RequestMethod} from "@angular/http";
-import {IngredientInfo} from "../../_models";
 
 @Component({
   selector: 'app-admin-recipe',
@@ -25,7 +20,6 @@ export class AdminRecipeComponent   {
   infoRefArray : any;
 
   constructor(private formBuilder: FormBuilder,
-              private http: HttpClient,
               private uploadService: UploadFileService,
               private recipeService: RecipeService,
               private ingrInfoService: IngredientInfoService) {
@@ -43,7 +37,6 @@ export class AdminRecipeComponent   {
 
   ngOnInit() {
     this.infoRefArray = this.ingrInfoService.findAll();
-    let i = 9;
   }
 
   // preparations related methods

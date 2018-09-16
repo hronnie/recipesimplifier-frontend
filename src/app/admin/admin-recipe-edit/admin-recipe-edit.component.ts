@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AppSettings} from "../../_commons";
-import { HttpClient } from '@angular/common/http';
-import {RecipeService} from "../../_services";
-import {Observable} from "rxjs/Observable";
+import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
 import {Recipe} from "../../_models";
+import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
 
 @Component({
@@ -17,19 +15,26 @@ export class AdminRecipeEditComponent implements OnInit {
   recipeForm: FormGroup;
   responseSuccessMsg: String;
   responseErrorMsg: String;
+
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
+  infoRefArray : any;
+
   isRecipeLoded: boolean;
   filteredRecipes: Observable<Recipe>;
 
   constructor(private formBuilder: FormBuilder,
-              private http: HttpClient,
-              private recipeService: RecipeService) {
+              private uploadService: UploadFileService,
+              private recipeService: RecipeService,
+              private ingrInfoService: IngredientInfoService) {
 
     this.recipeForm = formBuilder.group({
       recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
       preparations: this.formBuilder.array([ this.createPreparation()]),
       ingredients: this.formBuilder.array([ this.createIngredient()]),
       processes: this.formBuilder.array([ this.createProcess()]),
-      calorie: [null, Validators.required],
+      calorie: [null, null],
       price: [null, Validators.required],
       category: [null, Validators.required]
     });
@@ -40,7 +45,10 @@ export class AdminRecipeEditComponent implements OnInit {
         debounceTime(300),
         switchMap(value => this.recipeService.search({name: value}, 1))
       );
+  }
 
+  ngOnInit() {
+    this.infoRefArray = this.ingrInfoService.findAll();
   }
 
   displayFn(recipe: Recipe) {
@@ -76,7 +84,8 @@ export class AdminRecipeEditComponent implements OnInit {
     return this.formBuilder.group({
       name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
       unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
-      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)])
+      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
+      ingredientInfoId: new FormControl('', [Validators.required])
     });
   }
 
@@ -112,20 +121,48 @@ export class AdminRecipeEditComponent implements OnInit {
   removeProcess(index): void {
     this.processes.removeAt(index);
   }
-  ngOnInit() {  }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
+  // upload() {
+  //   this.progress.percentage = 0;
+  //
+  //   this.currentFileUpload = this.selectedFiles.item(0);
+  //   this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+  //     if (event.type === HttpEventType.UploadProgress) {
+  //       this.progress.percentage = Math.round(100 * event.loaded / event.total);
+  //     } else if (event instanceof HttpResponse) {
+  //       console.log('File is completely uploaded!');
+  //     }
+  //   });
+  //
+  //   this.selectedFiles = undefined;
+  // }
+
+
 
   addPost(post) {
+    //this.currentFileUpload = this.selectedFiles.item(0);
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
-    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe',
-      {name: post.recipeName,
-        ingredients: post.ingredients,
-        preparations: post.preparations,
-        processes: post.processes,
-        calorie: post.calorie,
-        price: post.price,
-        category: post.category
-      })
+    if (post.calorie == null) {
+      post.calorie = "-";
+    }
+
+    let inputDto = {
+      recipeId: null,
+      name: post.recipeName,
+      calorie: post.calorie,
+      price: post.price,
+      category: post.category,
+      ingredients: post.ingredients,
+      preparations: post.preparations,
+      processes: post.processes
+    }
+
+    this.recipeService.create(inputDto)
       .subscribe(res =>
         {
           this.responseSuccessMsg = "A recept sikeresen el lett tárolva :) ";
@@ -142,5 +179,9 @@ export class AdminRecipeEditComponent implements OnInit {
           }
         }
       );
+
+
+    this.selectedFiles = undefined;
   }
+
 }
