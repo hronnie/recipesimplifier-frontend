@@ -9,8 +9,14 @@ import {IngredientInfoService} from "../../_services";
 export class IngredientInfoComponent implements OnInit {
 
   columnDefs = [
-    {headerName: 'Name', field: 'name', editable: true},
-    {headerName: 'Description', field: 'description', editable: true },
+    {headerName: 'Name',
+      field: 'name',
+      editable: true},
+    {headerName: 'Description',
+      field: 'description',
+      editable: true,
+      cellEditor: "agLargeTextCellEditor",
+      }
   ];
 
   rowData: any;
@@ -29,7 +35,6 @@ export class IngredientInfoComponent implements OnInit {
   }
 
   onCellValueChanged(params: any) {
-    debugger;
     this.ingrInfoService.update(params.data)
       .subscribe(res =>
         {
@@ -51,6 +56,7 @@ export class IngredientInfoComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    this.gridApi.sizeColumnsToFit();
   }
 
   createNewRowData(id) {
@@ -67,7 +73,6 @@ export class IngredientInfoComponent implements OnInit {
       .subscribe(res =>
         {
           this.responseSuccessMsg = "A hozzávaló infó sikeresen el lett tárolva :) ";
-          debugger;
           let idPosition = res.lastIndexOf("/");
           let idStr = res.substring(idPosition + 1, res.length);
           this.gridApi.updateRowData({ add: [this.createNewRowData(idStr)] });
