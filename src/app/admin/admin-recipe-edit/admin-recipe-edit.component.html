@@ -29,8 +29,8 @@
           </mat-form-field>
 
           <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayFn">
-            <mat-option *ngFor="let recipe of (filteredRecipes | async)" [value]="recipe">
-              {{ recipe.name }} - {{recipe.recipeId}}
+            <mat-option (onSelectionChange)="showSelectedRecipe(recipe)"  *ngFor="let recipe of (filteredRecipes | async)" [value]="recipe.name">
+              {{ recipe.name }}
             </mat-option>
           </mat-autocomplete>
 

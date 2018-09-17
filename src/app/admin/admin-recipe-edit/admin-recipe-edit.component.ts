@@ -4,6 +4,7 @@ import {IngredientInfoService, RecipeService, UploadFileService} from "../../_se
 import {Recipe} from "../../_models";
 import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
+import {MatAutocompleteSelectedEvent} from "@angular/material";
 
 @Component({
   selector: 'app-admin-recipe-edit',
@@ -49,6 +50,18 @@ export class AdminRecipeEditComponent implements OnInit {
 
   ngOnInit() {
     this.infoRefArray = this.ingrInfoService.findAll();
+  }
+
+  showSelectedRecipe(recipe: Recipe) {
+    this.recipeForm.patchValue({
+      recipeName: recipe.name,
+      preparations: recipe.preparations,
+      ingredients: recipe.ingredients,
+      processes: recipe.processes,
+      calorie: recipe.calorie,
+      price: recipe.price,
+      category: recipe.category
+    });
   }
 
   displayFn(recipe: Recipe) {
