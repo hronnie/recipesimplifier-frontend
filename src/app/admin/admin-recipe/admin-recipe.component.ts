@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
+import {AppSettings} from "../../_commons";
 
 @Component({
   selector: 'app-admin-recipe',
@@ -147,17 +148,17 @@ export class AdminRecipeComponent   {
     this.recipeService.create(inputDto)
       .subscribe(res =>
         {
-          this.responseSuccessMsg = "A recept sikeresen el lett tárolva :) ";
+          this.responseSuccessMsg = AppSettings.HTTP_MSG_200_RECIPE_CREATE;
           this.recipeForm.reset();
         }, err => {
           if (err.status === 422) {
-            this.responseErrorMsg = "Az elküldött recept nem megfelelő";
+            this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
           } else if (err.status === 401) {
-            this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
+            this.responseErrorMsg = AppSettings.HTTP_MSG_401_AUTH_ERROR;
           } else if (err.status === 500) {
-            this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
+            this.responseErrorMsg = AppSettings.HTTP_MSG_500_INTERNAL_SERVER_ERROR;
           } else {
-            this.responseErrorMsg = "Ismeretlen hiba"
+            this.responseErrorMsg = AppSettings.HTTP_MSG_UNKNOWN;
           }
         }
       );
