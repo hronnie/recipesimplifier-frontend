@@ -268,11 +268,12 @@
       <div class="flex-row">
         <div class="form-group col-md-4">
           <label for="categoryId">Kategória</label>
-          <select name="unit" id="categoryId" formControlName="category" class="form-control">
-            <option value="soup">Leves</option>
-            <option value="mainCourse">Főétel</option>
-            <option value="salad">Saláta</option>
-            <option value="dessert">Desszert</option>
+          <select name="category" id="categoryId" formControlName="category" class="form-control">
+            <option [ngValue]="categoryItem.id"
+                    *ngFor="let categoryItem of recipeCategoryArray"
+            >
+              {{ categoryItem.name }}
+            </option>
           </select>
         </div>
       </div>

@@ -22,6 +22,7 @@ export class AdminRecipeEditComponent implements OnInit {
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
   infoRefArray : any;
+  recipeCategoryArray : any[];
 
   isRecipeLoded: boolean;
   filteredRecipes: Observable<Recipe>;
@@ -51,6 +52,12 @@ export class AdminRecipeEditComponent implements OnInit {
 
   ngOnInit() {
     this.infoRefArray = this.ingrInfoService.findAll();
+    this.recipeCategoryArray = [
+      {id: "soup", name: "Leves"},
+      {id: "mainCourse", name: "Főétel"},
+      {id: "salad", name: "Saláta"},
+      {id: "dessert", name: "Desszert"}
+    ]
   }
 
   showSelectedRecipe(recipe: Recipe) {
