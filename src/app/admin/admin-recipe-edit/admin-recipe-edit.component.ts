@@ -5,6 +5,7 @@ import {Recipe} from "../../_models";
 import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from "@angular/material";
+import {AppSettings} from "../../_commons";
 
 
 @Component({
@@ -15,6 +16,7 @@ import {MatAutocompleteSelectedEvent} from "@angular/material";
 export class AdminRecipeEditComponent implements OnInit {
 
   recipeForm: FormGroup;
+  recipeId: number;
   responseSuccessMsg: String;
   responseErrorMsg: String;
 
@@ -61,6 +63,7 @@ export class AdminRecipeEditComponent implements OnInit {
   }
 
   showSelectedRecipe(recipe: Recipe) {
+    this.recipeId = recipe.recipeId;
     this.recipeForm.patchValue({
       recipeName: recipe.name,
       calorie: recipe.calorie,
@@ -169,46 +172,103 @@ export class AdminRecipeEditComponent implements OnInit {
   // }
 
 
+  onFormSubmit(recipeForm, action){
 
-  addPost(post) {
+    debugger;
+    let inputDto = {
+      recipeId: this.recipeId,
+      name: recipeForm.recipeName,
+      calorie: recipeForm.calorie,
+      price: recipeForm.price,
+      category: recipeForm.category,
+      ingredients: recipeForm.ingredients,
+      preparations: recipeForm.preparations,
+      processes: recipeForm.processes
+    }
+
+    if (action === 'edit') {
+      this.recipeService.update(inputDto)
+        .subscribe(res =>
+          {
+            this.responseSuccessMsg = AppSettings.HTTP_MSG_200_RECIPE_UPDATE;
+            this.recipeForm.reset();
+          }, err => {
+            if (err.status === 422) {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
+            } else if (err.status === 401) {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_401_AUTH_ERROR;
+            } else if (err.status === 500) {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_500_INTERNAL_SERVER_ERROR;
+            } else {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_UNKNOWN;
+            }
+          }
+        );
+    } else if (action === 'delete'){
+      this.recipeService.delete(this.recipeId)
+        .subscribe(res =>
+          {
+            this.responseSuccessMsg = AppSettings.HTTP_MSG_200_RECIPE_DELETE;
+            this.recipeForm.reset();
+          }, err => {
+            if (err.status === 422) {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
+            } else if (err.status === 401) {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_401_AUTH_ERROR;
+            } else if (err.status === 500) {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_500_INTERNAL_SERVER_ERROR;
+            } else {
+              this.responseErrorMsg = AppSettings.HTTP_MSG_UNKNOWN;
+            }
+          }
+        );
+    }
+    this.recipeForm.reset();
+  }
+
+
+  editRecipe() {
     //this.currentFileUpload = this.selectedFiles.item(0);
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
-    if (post.calorie == null) {
-      post.calorie = "-";
-    }
-
+    // if (post.calorie == null) {
+    //   post.calorie = "-";
+    // }
+    debugger;
     let inputDto = {
-      recipeId: null,
-      name: post.recipeName,
-      calorie: post.calorie,
-      price: post.price,
-      category: post.category,
-      ingredients: post.ingredients,
-      preparations: post.preparations,
-      processes: post.processes
+      recipeId: this.recipeForm.controls.recipeId,
+      name: this.recipeForm.controls.recipeName,
+      calorie: this.recipeForm.controls.calorie,
+      price: this.recipeForm.controls.price,
+      category: this.recipeForm.controls.category,
+      ingredients: this.recipeForm.controls.ingredients,
+      preparations: this.recipeForm.controls.preparations,
+      processes: this.recipeForm.controls.processes
     }
+    //
+    // this.recipeService.update(inputDto)
+    //   .subscribe(res =>
+    //     {
+    //       this.responseSuccessMsg = "A recept sikeresen módosítva lett :) ";
+    //       this.recipeForm.reset();
+    //     }, err => {
+    //       if (err.status === 422) {
+    //         this.responseErrorMsg = "Az elküldött recept nem megfelelő";
+    //       } else if (err.status === 401) {
+    //         this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
+    //       } else if (err.status === 500) {
+    //         this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
+    //       } else {
+    //         this.responseErrorMsg = "Ismeretlen hiba"
+    //       }
+    //     }
+    //   );
+    // this.selectedFiles = undefined;
+  }
 
-    this.recipeService.create(inputDto)
-      .subscribe(res =>
-        {
-          this.responseSuccessMsg = "A recept sikeresen el lett tárolva :) ";
-          this.recipeForm.reset();
-        }, err => {
-          if (err.status === 422) {
-            this.responseErrorMsg = "Az elküldött recept nem megfelelő";
-          } else if (err.status === 401) {
-            this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
-          } else if (err.status === 500) {
-            this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
-          } else {
-            this.responseErrorMsg = "Ismeretlen hiba"
-          }
-        }
-      );
+  removeRecipe() {
+    debugger;
 
-
-    this.selectedFiles = undefined;
   }
 
 }
