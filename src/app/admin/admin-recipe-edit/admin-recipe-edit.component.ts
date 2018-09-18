@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, VERSION, Input, OnChanges } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
 import {Recipe} from "../../_models";
 import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from "@angular/material";
+
 
 @Component({
   selector: 'app-admin-recipe-edit',
@@ -55,13 +56,16 @@ export class AdminRecipeEditComponent implements OnInit {
   showSelectedRecipe(recipe: Recipe) {
     this.recipeForm.patchValue({
       recipeName: recipe.name,
-      preparations: recipe.preparations,
-      ingredients: recipe.ingredients,
-      processes: recipe.processes,
       calorie: recipe.calorie,
       price: recipe.price,
       category: recipe.category
     });
+
+    this.recipeForm.setControl('preparations', this.formBuilder.array((recipe.preparations || []).map((x) => this.formBuilder.group(x))));
+    this.recipeForm.setControl('ingredients', this.formBuilder.array((recipe.ingredients || []).map((x) => this.formBuilder.group(x))));
+    this.recipeForm.setControl('processes', this.formBuilder.array((recipe.processes || []).map((x) => this.formBuilder.group(x))));
+
+    this.isRecipeLoded = true;
   }
 
   displayFn(recipe: Recipe) {
@@ -74,6 +78,7 @@ export class AdminRecipeEditComponent implements OnInit {
 
   createPreparation(): FormGroup {
     return this.formBuilder.group({
+      preparationId: new FormControl('', []),
       description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
       duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
     });
@@ -95,6 +100,7 @@ export class AdminRecipeEditComponent implements OnInit {
 
   createIngredient(): FormGroup {
     return this.formBuilder.group({
+      ingredientId: new FormControl('', []),
       name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
       unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
       quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
@@ -118,6 +124,7 @@ export class AdminRecipeEditComponent implements OnInit {
 
   createProcess(): FormGroup {
     return this.formBuilder.group({
+      processId: new FormControl('', []),
       description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
       duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
     });

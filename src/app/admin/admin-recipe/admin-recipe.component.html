@@ -1,4 +1,4 @@
-<div *ngIf="!recipeName; else forminfo">
+<div>
   <form [formGroup]="recipeForm" (ngSubmit)="addPost(recipeForm.value)">
     <p class="h1">Új recept hozzáadása</p>
 
