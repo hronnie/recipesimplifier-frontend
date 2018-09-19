@@ -4,8 +4,8 @@ import {IngredientInfoService, RecipeService, UploadFileService} from "../../_se
 import {Recipe} from "../../_models";
 import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
-import {MatAutocompleteSelectedEvent} from "@angular/material";
 import {AppSettings} from "../../_commons";
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
 
 
 @Component({
@@ -32,7 +32,8 @@ export class AdminRecipeEditComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private uploadService: UploadFileService,
               private recipeService: RecipeService,
-              private ingrInfoService: IngredientInfoService) {
+              private ingrInfoService: IngredientInfoService,
+              public modal: Modal) {
 
     this.recipeForm = formBuilder.group({
       recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
@@ -114,7 +115,7 @@ export class AdminRecipeEditComponent implements OnInit {
       name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
       unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
       quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
-      ingredientInfoId: new FormControl('', [Validators.required])
+      ingredientInfoId: new FormControl('', [])
     });
   }
 
@@ -173,8 +174,6 @@ export class AdminRecipeEditComponent implements OnInit {
 
 
   onFormSubmit(recipeForm, action){
-
-    debugger;
     let inputDto = {
       recipeId: this.recipeId,
       name: recipeForm.recipeName,
@@ -191,7 +190,6 @@ export class AdminRecipeEditComponent implements OnInit {
         .subscribe(res =>
           {
             this.responseSuccessMsg = AppSettings.HTTP_MSG_200_RECIPE_UPDATE;
-            this.recipeForm.reset();
           }, err => {
             if (err.status === 422) {
               this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
@@ -205,69 +203,69 @@ export class AdminRecipeEditComponent implements OnInit {
           }
         );
     } else if (action === 'delete'){
-      this.recipeService.delete(this.recipeId)
-        .subscribe(res =>
-          {
-            this.responseSuccessMsg = AppSettings.HTTP_MSG_200_RECIPE_DELETE;
-            this.recipeForm.reset();
-          }, err => {
-            if (err.status === 422) {
-              this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
-            } else if (err.status === 401) {
-              this.responseErrorMsg = AppSettings.HTTP_MSG_401_AUTH_ERROR;
-            } else if (err.status === 500) {
-              this.responseErrorMsg = AppSettings.HTTP_MSG_500_INTERNAL_SERVER_ERROR;
-            } else {
-              this.responseErrorMsg = AppSettings.HTTP_MSG_UNKNOWN;
+        const dialogRef = this.modal.confirm()
+          .size('sm')
+          .isBlocking(true)
+          .showClose(true)
+          .keyboard(27)
+          .cancelBtn("Mégse")
+          .title('Törlés megerősítése')
+          .body(`
+              <h3>Tényleg törölni akarod a receptet?</h3>
+              `)
+          .open();
+
+        dialogRef.result
+          .then( result =>
+            {
+              if (result) {
+                this.doDelete();
+                this.recipeId = null;
+              }
             }
-          }
-        );
+          );
     }
-    this.recipeForm.reset();
   }
 
+  doDelete() {
+    this.recipeService.delete(this.recipeId)
+      .subscribe(res =>
+        {
+          this.responseSuccessMsg = AppSettings.HTTP_MSG_200_RECIPE_DELETE;
+          this.recipeForm.reset();
+        }, err => {
+          if (err.status === 422) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
+          } else if (err.status === 401) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_401_AUTH_ERROR;
+          } else if (err.status === 500) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_500_INTERNAL_SERVER_ERROR;
+          } else {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_UNKNOWN;
+          }
+        }
+      );
+    this.recipeForm.reset();
+  }
 
   editRecipe() {
     //this.currentFileUpload = this.selectedFiles.item(0);
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
-    // if (post.calorie == null) {
-    //   post.calorie = "-";
-    // }
-    debugger;
+    let calorie = this.recipeForm.controls.calorie.value;
+    if (calorie === null) {
+      calorie = "-";
+    }
     let inputDto = {
       recipeId: this.recipeForm.controls.recipeId,
       name: this.recipeForm.controls.recipeName,
-      calorie: this.recipeForm.controls.calorie,
+      calorie: calorie,
       price: this.recipeForm.controls.price,
       category: this.recipeForm.controls.category,
       ingredients: this.recipeForm.controls.ingredients,
       preparations: this.recipeForm.controls.preparations,
       processes: this.recipeForm.controls.processes
     }
-    //
-    // this.recipeService.update(inputDto)
-    //   .subscribe(res =>
-    //     {
-    //       this.responseSuccessMsg = "A recept sikeresen módosítva lett :) ";
-    //       this.recipeForm.reset();
-    //     }, err => {
-    //       if (err.status === 422) {
-    //         this.responseErrorMsg = "Az elküldött recept nem megfelelő";
-    //       } else if (err.status === 401) {
-    //         this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
-    //       } else if (err.status === 500) {
-    //         this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
-    //       } else {
-    //         this.responseErrorMsg = "Ismeretlen hiba"
-    //       }
-    //     }
-    //   );
-    // this.selectedFiles = undefined;
-  }
-
-  removeRecipe() {
-    debugger;
 
   }
 
