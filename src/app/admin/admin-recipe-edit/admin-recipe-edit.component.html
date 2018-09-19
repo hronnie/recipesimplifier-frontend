@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit(recipeForm.value)" class="editForm">
+  <form [formGroup]="recipeForm" class="editForm">
     <p class="h1">Receptek szerkesztése</p>
 
     <div class="flex-column">
@@ -302,7 +302,7 @@
 
       <div class="flex-row">
         <input type="submit" (click)="onFormSubmit(recipeForm.value, 'edit')" class="btn btn-primary" value="Recept módosítása" [disabled]="!recipeForm.valid">
-        <input type="submit" (click)="onFormSubmit(recipeForm.value, 'remove')" class="btn btn-primary" value="Recept törlése" >
+        <input type="submit" (click)="onFormSubmit(recipeForm.value, 'delete')" class="btn btn-danger" value="Recept törlése" >
       </div>
     </div>
     </div>
