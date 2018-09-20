@@ -4,6 +4,7 @@ export class AppSettings {
     public static INGREDIENT_INFO_URL = AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/ingredientinfo/';
     public static RECIPE_URL = AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe/';
     public static RECIPE_SEARCH_BY_NAME_URL = AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe/byname/';
+    public static RECIPE_IMAGE_MANAGEMENT_URL = AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipeimage';
 
     public static HTTP_MSG_422_BAD_DATA_RECIPE = 'Az elküldött recept nem megfelelő';
     public static HTTP_MSG_401_AUTH_ERROR = 'Autentikációs hiba, a recept elküldéséhez be kell jelentkezni';

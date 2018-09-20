@@ -168,7 +168,7 @@ export class AdminRecipeEditComponent implements OnInit {
     this.progress.percentage = 0;
 
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+    this.uploadService.pushFileToStorage(this.currentFileUpload, 1, this.recipeId).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {

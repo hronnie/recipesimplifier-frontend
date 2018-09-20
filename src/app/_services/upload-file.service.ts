@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {AppSettings} from "../_commons";
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,12 @@ export class UploadFileService {
 
   constructor(private http: HttpClient) { }
 
-  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+  pushFileToStorage(file: File, index: number, recipeId: number): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
 
     formdata.append('file', file);
 
-    const req = new HttpRequest('POST', 'http://localhost:8080/api/recipeimage/upload', formdata, {
+    const req = new HttpRequest('POST', AppSettings.RECIPE_IMAGE_MANAGEMENT_URL + '/' + index + '/' + recipeId, formdata, {
       reportProgress: true,
       responseType: 'text'
     });
