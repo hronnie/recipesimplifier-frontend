@@ -6,9 +6,6 @@ import { routing } from '../app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminRecipeEditComponent } from './admin-recipe-edit/admin-recipe-edit.component';
 import {MatAutocompleteModule, MatButtonModule, MatFormFieldModule, MatInputModule} from "@angular/material";
-import { FormUploadComponent } from './form-upload/form-upload.component';
-import { ListUploadComponent } from './list-upload/list-upload.component';
-import { DetailsUploadComponent } from './details-upload/details-upload.component';
 import { IngredientInfoComponent } from './ingredient-info/ingredient-info.component';
 import {AgGridModule} from "ag-grid-angular";
 import {ModalModule} from "ngx-modialog";
@@ -32,9 +29,6 @@ import {BootstrapModalModule} from "ngx-modialog/plugins/bootstrap";
     AdminMainComponent,
     AdminRecipeComponent,
     AdminRecipeEditComponent,
-    FormUploadComponent,
-    ListUploadComponent,
-    DetailsUploadComponent,
     IngredientInfoComponent]
 })
 export class AdminModule { }
