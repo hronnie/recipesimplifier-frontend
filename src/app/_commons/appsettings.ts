@@ -14,4 +14,6 @@ export class AppSettings {
     public static HTTP_MSG_200_RECIPE_DELETE = 'A recept sikeresen törölve lett :) ';
     public static HTTP_MSG_200_RECIPE_CREATE = 'A recept sikeresen el lett tárolva :) ';
 
+    public static HTTP_MSG_422_BAD_DATA_RECIPE_IMAGE = 'Az elküldött recept kép nem megfelelő';
+
 }

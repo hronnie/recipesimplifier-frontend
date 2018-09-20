@@ -1,7 +1,7 @@
 import { Component, OnInit, VERSION, Input, OnChanges } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
-import {Recipe} from "../../_models";
+import {Recipe, UploadFileResponse} from "../../_models";
 import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
 import {AppSettings} from "../../_commons";
@@ -20,10 +20,11 @@ export class AdminRecipeEditComponent implements OnInit {
   recipeId: number;
   responseSuccessMsg: String;
   responseErrorMsg: String;
+  imgResponseErrMsg: String;
+  imgResponseSuccessMsg: String;
 
   selectedFiles: FileList;
   currentFileUpload: File;
-  progress: { percentage: number } = { percentage: 0 };
   infoRefArray : any;
   recipeCategoryArray : any[];
 
@@ -164,14 +165,22 @@ export class AdminRecipeEditComponent implements OnInit {
     this.selectedFiles = event.target.files;
   }
 
-  upload() {
-    this.progress.percentage = 0;
-
+  upload(index) {
+    if (!this.selectedFiles || this.selectedFiles === undefined) {
+      this.imgResponseErrMsg = "Még nem választottál ki fájlt";
+      return;
+    }
+    this.imgResponseErrMsg = null;
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.uploadService.pushFileToStorage(this.currentFileUpload, 1, this.recipeId).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.progress.percentage = Math.round(100 * event.loaded / event.total);
-      } else if (event instanceof HttpResponse) {
+    this.uploadService.pushFileToStorage(this.currentFileUpload, index, this.recipeId).subscribe(event => {
+      if (event instanceof HttpResponse) {
+        if (event.status === 200) {
+          let result: UploadFileResponse;
+          result = JSON.parse(event.body.toString());
+          this.imgResponseSuccessMsg = "A kép mentése sikeres volt: " + result.fileName;
+        } else {
+          this.imgResponseErrMsg = "A kép mentése sikertelen volt: " + result.fileName;
+        }
         console.log('File is completely uploaded!');
       }
     });
@@ -179,6 +188,12 @@ export class AdminRecipeEditComponent implements OnInit {
     this.selectedFiles = undefined;
   }
 
+  isUploadButtonDisabled(index) {
+    if (!this.selectedFiles) {
+      return true
+    }
+    return !this.selectedFiles.item(index);
+  }
 
   onFormSubmit(recipeForm, action){
     let inputDto = {
@@ -256,7 +271,6 @@ export class AdminRecipeEditComponent implements OnInit {
   }
 
   editRecipe() {
-    //this.currentFileUpload = this.selectedFiles.item(0);
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
     let calorie = this.recipeForm.controls.calorie.value;

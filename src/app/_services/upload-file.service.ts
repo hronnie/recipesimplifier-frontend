@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {AppSettings} from "../_commons";
+import {tap} from "rxjs/operators";
+import {Recipe, UploadFileResponse} from "../_models";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,12 @@ export class UploadFileService {
       responseType: 'text'
     });
 
-    return this.http.request(req);
+    return this.http.request(req)
+      .pipe(
+        tap((response: UploadFileResponse) => {
+          return response;
+        })
+      );;
   }
 
   getFiles(): Observable<any> {

@@ -77,18 +77,56 @@
       <!--Image upload section START-->
       <!--=======================-->
       <button class="btn btn-link" (click)="toggleImageUpload()">Recept képek mutat/elrejt</button>
+        <div class="alert alert-danger" role="alert" *ngIf="imgResponseErrMsg !== '' && imgResponseErrMsg !== undefined">
+          {{ imgResponseErrMsg }}
+        </div>
+
+        <div class="alert alert-success" role="alert" *ngIf="imgResponseSuccessMsg !== '' && imgResponseSuccessMsg !== undefined">
+          {{ imgResponseSuccessMsg }}
+        </div>
+
       <div *ngIf="!hideImageManageSection">
+        <h4>1. kép: </h4>
+
+        <label class="btn btn-default">
+        <input type="file" (change)="selectFile($event)">
+        </label>
+
+        <button class="btn btn-success" [disabled]="false" (click)="upload(1)">Upload</button>
+
+        <h4>2. kép: </h4>
+
+        <label class="btn btn-default">
+        <input type="file" (change)="selectFile($event)">
+        </label>
+
+        <button class="btn btn-success" [disabled]="false" (click)="upload(2)">Upload</button>
+
+        <h4>3. kép: </h4>
         <div *ngIf="currentFileUpload" class="progress">
-        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
-        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-        {{progress.percentage}}%</div>
         </div>
 
         <label class="btn btn-default">
         <input type="file" (change)="selectFile($event)">
         </label>
 
-        <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+        <button class="btn btn-success" [disabled]="false" (click)="upload(3)">Upload</button>
+
+        <h4>4. kép: </h4>
+
+        <label class="btn btn-default">
+        <input type="file" (change)="selectFile($event)">
+        </label>
+
+        <button class="btn btn-success" [disabled]="false" (click)="upload(4)">Upload</button>
+
+        <h4>5. kép: </h4>
+
+        <label class="btn btn-default">
+        <input type="file" (change)="selectFile($event)">
+        </label>
+
+        <button class="btn btn-success" [disabled]="false" (click)="upload(5)">Upload</button>
       </div>
       <!--=======================-->
       <!--Image upload section END-->
