@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
 import {AppSettings} from "../../_commons";
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import {HttpEventType, HttpResponse} from "@angular/common/http";
 
 
 @Component({
@@ -28,6 +29,7 @@ export class AdminRecipeEditComponent implements OnInit {
 
   isRecipeLoded: boolean;
   filteredRecipes: Observable<Recipe>;
+  hideImageManageSection: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private uploadService: UploadFileService,
@@ -61,6 +63,11 @@ export class AdminRecipeEditComponent implements OnInit {
       {id: "salad", name: "Saláta"},
       {id: "dessert", name: "Desszert"}
     ]
+    this.hideImageManageSection = true;
+  }
+
+  toggleImageUpload() {
+    this.hideImageManageSection = !this.hideImageManageSection;
   }
 
   showSelectedRecipe(recipe: Recipe) {
@@ -157,20 +164,20 @@ export class AdminRecipeEditComponent implements OnInit {
     this.selectedFiles = event.target.files;
   }
 
-  // upload() {
-  //   this.progress.percentage = 0;
-  //
-  //   this.currentFileUpload = this.selectedFiles.item(0);
-  //   this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
-  //     if (event.type === HttpEventType.UploadProgress) {
-  //       this.progress.percentage = Math.round(100 * event.loaded / event.total);
-  //     } else if (event instanceof HttpResponse) {
-  //       console.log('File is completely uploaded!');
-  //     }
-  //   });
-  //
-  //   this.selectedFiles = undefined;
-  // }
+  upload() {
+    this.progress.percentage = 0;
+
+    this.currentFileUpload = this.selectedFiles.item(0);
+    this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round(100 * event.loaded / event.total);
+      } else if (event instanceof HttpResponse) {
+        console.log('File is completely uploaded!');
+      }
+    });
+
+    this.selectedFiles = undefined;
+  }
 
 
   onFormSubmit(recipeForm, action){
