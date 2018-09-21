@@ -1,0 +1,15 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  border-radius: 8px;
+  max-height: 250px;
+  width: auto;
+}

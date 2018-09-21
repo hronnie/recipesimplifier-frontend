@@ -1,3 +1,100 @@
-<p>
-  recipe works!
-</p>
+<div>
+  <form [formGroup]="recipeForm" class="editForm">
+    <p class="h1">Receptek</p>
+
+    <div class="flex-column">
+
+      <!--=======================-->
+      <!--Search recipe by name START-->
+      <!--=======================-->
+      <div class="flex-row">
+        <div class="form-group search-form">
+
+          <mat-form-field>
+            <input type="text" placeholder="Recept neve.." matInput formControlName='recipeName' [matAutocomplete]="auto">
+          </mat-form-field>
+
+          <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayRecipeHelper">
+            <mat-option (onSelectionChange)="showSelectedRecipe(recipe)"  *ngFor="let recipe of (filteredRecipes | async)" [value]="recipe.name">
+              {{ recipe.name }}
+            </mat-option>
+          </mat-autocomplete>
+
+        </div>
+      </div>
+      <!--=======================-->
+      <!--Search recipe by name END-->
+      <!--=======================-->
+
+
+      <!--============================================-->
+      <!--Section for Edit when recipe is loaded START-->
+      <!--============================================-->
+      <div *ngIf="isRecipeLoded">
+        <h2>{{displayRecipe.name}}</h2>
+        <h3>Képek</h3>
+        <div class="flex-row">
+          <div class="form-group col-md-6 flex-column">
+            <img [src]="imgSrc" >
+          </div>
+        </div>
+        <h3>Összetevők</h3>
+        <div *ngFor="let ingr of displayRecipe.ingredients">
+          <div class="flex-row">
+            <div class="form-group col-md-6 flex-column">
+              {{ingr.name}}
+            </div>
+
+            <div class="form-group col-md-2 flex-column">
+              {{ingr.quantity}}
+            </div>
+
+            <div class="form-group col-md-4 flex-column">
+              {{ingr.unit}}
+            </div>
+          </div>
+        </div>
+        <h3>Előkészítés</h3>
+        <div *ngFor="let prep of displayRecipe.preparations">
+          <div class="flex-row">
+            <div class="form-group col-md-6 flex-column">
+              {{prep.description}}
+            </div>
+
+            <div class="form-group col-md-2 flex-column">
+              {{prep.duration}} perc
+            </div>
+          </div>
+        </div>
+        <h3>Elkészítés</h3>
+        <div *ngFor="let proc of displayRecipe.processes">
+          <div class="flex-row">
+            <div class="form-group col-md-6 flex-column">
+              {{proc.description}}
+            </div>
+
+            <div class="form-group col-md-2 flex-column">
+              {{proc.duration}} perc
+            </div>
+          </div>
+        </div>
+        <h3>Egyéb</h3>
+        <div class="flex-row">
+          <div class="form-group col-md-6 flex-column">
+            Kalória: {{displayRecipe.calorie}}
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="form-group col-md-6 flex-column">
+            Ketegória: {{displayRecipe.category}}
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="form-group col-md-6 flex-column">
+            Árkategória: {{displayRecipe.price}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
