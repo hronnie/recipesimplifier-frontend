@@ -4,13 +4,13 @@ import {RecipeProcess} from "./recipeProcess";
 
 export class Recipe {
 
-  constructor(public recipeId: number,
-              public name: string,
-              public calorie: number,
-              public price: number,
-              public category: string,
-              public ingredients: Ingredient[],
-              public preparations: Preparation[],
-              public recipeProcesses: RecipeProcess[]) {}
+  recipeId: number;
+  name: string;
+  calorie: number;
+  price: number;
+  category: string;
+  ingredients: Ingredient[];
+  preparations: Preparation[];
+  processes: RecipeProcess[];
 
 }

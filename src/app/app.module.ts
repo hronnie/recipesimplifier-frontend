@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { routing } from './app.routing';
@@ -14,7 +14,7 @@ import { fakeBackendProvider } from './_helpers/index';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor } from './_helpers/index';
-import {AlertService, AuthenticationService, RecipeService} from './_services/index';
+import {AlertService, AuthenticationService, RecipeService, IngredientInfoService, UploadFileService} from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { ContactComponent } from './contact/index';
@@ -66,6 +66,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     AuthGuard,
     AlertService,
     RecipeService,
+    IngredientInfoService,
+    UploadFileService,
     AuthenticationService,
     {
         provide: HTTP_INTERCEPTORS,
@@ -74,6 +76,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     },
 
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
+  ]
 })
 export class AppModule { }

@@ -6,6 +6,10 @@ import { routing } from '../app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminRecipeEditComponent } from './admin-recipe-edit/admin-recipe-edit.component';
 import {MatAutocompleteModule, MatButtonModule, MatFormFieldModule, MatInputModule} from "@angular/material";
+import { IngredientInfoComponent } from './ingredient-info/ingredient-info.component';
+import {AgGridModule} from "ag-grid-angular";
+import {ModalModule} from "ngx-modialog";
+import {BootstrapModalModule} from "ngx-modialog/plugins/bootstrap";
 
 @NgModule({
   imports: [
@@ -17,7 +21,14 @@ import {MatAutocompleteModule, MatButtonModule, MatFormFieldModule, MatInputModu
     MatAutocompleteModule,
     MatFormFieldModule,
     MatButtonModule,
+    AgGridModule.withComponents([IngredientInfoComponent]),
+    ModalModule.forRoot(),
+    BootstrapModalModule
   ],
-  declarations: [AdminMainComponent, AdminRecipeComponent, AdminRecipeEditComponent]
+  declarations: [
+    AdminMainComponent,
+    AdminRecipeComponent,
+    AdminRecipeEditComponent,
+    IngredientInfoComponent]
 })
 export class AdminModule { }

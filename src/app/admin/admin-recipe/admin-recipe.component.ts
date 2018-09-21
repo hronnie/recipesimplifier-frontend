@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
 import {AppSettings} from "../../_commons";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-recipe',
@@ -15,18 +15,25 @@ export class AdminRecipeComponent   {
   responseSuccessMsg: String;
   responseErrorMsg: String;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  infoRefArray : any;
+
+  constructor(private formBuilder: FormBuilder,
+              private recipeService: RecipeService,
+              private ingrInfoService: IngredientInfoService) {
 
     this.recipeForm = formBuilder.group({
       recipeName: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(40) ]),
       preparations: this.formBuilder.array([ this.createPreparation()]),
       ingredients: this.formBuilder.array([ this.createIngredient()]),
       processes: this.formBuilder.array([ this.createProcess()]),
-      calorie: [null, Validators.required],
+      calorie: [null, null],
       price: [null, Validators.required],
       category: [null, Validators.required]
     });
+  }
 
+  ngOnInit() {
+    this.infoRefArray = this.ingrInfoService.findAll();
   }
 
   // preparations related methods
@@ -56,7 +63,8 @@ export class AdminRecipeComponent   {
     return this.formBuilder.group({
       name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
       unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
-      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)])
+      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
+      ingredientInfoId: new FormControl('', [Validators.required])
     });
   }
 
@@ -92,34 +100,41 @@ export class AdminRecipeComponent   {
   removeProcess(index): void {
     this.processes.removeAt(index);
   }
-  ngOnInit() {  }
 
   addPost(post) {
+    //this.currentFileUpload = this.selectedFiles.item(0);
     this.responseSuccessMsg = "";
     this.responseErrorMsg = "";
-    this.http.post(AppSettings.RECIPE_BASE_DOMAIN + '/api/admin/recipe',
-      {name: post.recipeName,
-              ingredients: post.ingredients,
-              preparations: post.preparations,
-              processes: post.processes,
-              calorie: post.calorie,
-              price: post.price,
-              category: post.category
-      })
+    if (post.calorie == null) {
+      post.calorie = "-";
+    }
+
+    let inputDto = {
+      recipeId: null,
+      name: post.recipeName,
+      calorie: post.calorie,
+      price: post.price,
+      category: post.category,
+      ingredients: post.ingredients,
+      preparations: post.preparations,
+      processes: post.processes
+    }
+
+    this.recipeService.create(inputDto)
       .subscribe(res =>
-      {
-        this.responseSuccessMsg = "A recept sikeresen el lett tárolva :) ";
-        this.recipeForm.reset();
-      }, err => {
-        if (err.status === 422) {
-          this.responseErrorMsg = "Az elküldött recept nem megfelelő";
-        } else if (err.status === 401) {
-          this.responseErrorMsg = "Autentikációs hiba, a recept elküldéséhez be kell jelentkezni"
-        } else if (err.status === 500) {
-          this.responseErrorMsg = "Rendszerhiba történt, szólj kérlek a rendszergazdának: aron.harsfalvi@gmail.com"
-        } else {
-          this.responseErrorMsg = "Ismeretlen hiba"
-        }
+        {
+          this.responseSuccessMsg = AppSettings.HTTP_MSG_200_RECIPE_CREATE;
+          this.recipeForm.reset();
+        }, err => {
+          if (err.status === 422) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
+          } else if (err.status === 401) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_401_AUTH_ERROR;
+          } else if (err.status === 500) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_500_INTERNAL_SERVER_ERROR;
+          } else {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_UNKNOWN;
+          }
         }
       );
   }

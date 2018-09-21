@@ -1,60 +1,62 @@
 <div class="container">
   <div class="header clearfix">
-    <nav>
-      <ul class="nav nav-pills pull-right">
-        <li role="presentation" class="active" *ngIf="route === 'home'">
-          <a [routerLink]="['/']">Kezdőlap</a>
-        </li>
-        <li role="presentation" *ngIf="route !== 'home'">
-          <a [routerLink]="['/']">Kezdőlap</a>
-        </li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li role="presentation" class="active" *ngIf="route === 'home'">
+            <a class="nav-link"[routerLink]="['/']">Kezdőlap</a>
+          </li>
+          <li  class="nav-item active" role="presentation" *ngIf="route !== 'home'">
+            <a class="nav-link"[routerLink]="['/']">Kezdőlap</a>
+          </li>
 
-        <li role="presentation" class="active" *ngIf="route === 'recipe'">
-          <a [routerLink]="['/recipe']">Receptek</a>
-        </li>
-        <li role="presentation" *ngIf="route !== 'recipe'">
-          <a [routerLink]="['/recipe']">Receptek</a>
-        </li>
+          <li  class="nav-item active" role="presentation" class="active" *ngIf="route === 'recipe'">
+            <a class="nav-link"[routerLink]="['/recipe']">Receptek</a>
+          </li>
+          <li  class="nav-item active" role="presentation" *ngIf="route !== 'recipe'">
+            <a class="nav-link"[routerLink]="['/recipe']">Receptek</a>
+          </li>
 
-        <li role="presentation" class="active" *ngIf="route === 'search'">
-          <a [routerLink]="['/search']">Receptek keresése</a>
-        </li>
-        <li role="presentation" *ngIf="route !== 'search'">
-          <a [routerLink]="['/search']">Receptek keresése</a>
-        </li>
+          <li  class="nav-item active" role="presentation" class="active" *ngIf="route === 'search'">
+            <a class="nav-link"[routerLink]="['/search']">Receptek keresése</a>
+          </li>
+          <li  class="nav-item active" role="presentation" *ngIf="route !== 'search'">
+            <a class="nav-link"[routerLink]="['/search']">Receptek keresése</a>
+          </li>
 
-        <li role="presentation" class="active" *ngIf="route === 'blog'">
-          <a [routerLink]="['/blog']">Blog</a>
-        </li>
-        <li role="presentation" *ngIf="route !== 'blog'">
-          <a [routerLink]="['/blog']">Blog</a>
-        </li>
+          <li  class="nav-item active" role="presentation" class="active" *ngIf="route === 'blog'">
+            <a class="nav-link"[routerLink]="['/blog']">Blog</a>
+          </li>
+          <li  class="nav-item active" role="presentation" *ngIf="route !== 'blog'">
+            <a class="nav-link"[routerLink]="['/blog']">Blog</a>
+          </li>
 
-        <li role="presentation" class="active" *ngIf="route === 'contact'">
-          <a [routerLink]="['/contact']">Kapcsolat</a>
-        </li>
-        <li role="presentation" *ngIf="route !== 'contact'">
-          <a [routerLink]="['/contact']">Kapcsolat</a>
-        </li>
+          <li  class="nav-item active" role="presentation" class="active" *ngIf="route === 'contact'">
+            <a class="nav-link"[routerLink]="['/contact']">Kapcsolat</a>
+          </li>
+          <li class="nav-item active" role="presentation" *ngIf="route !== 'contact'">
+            <a class="nav-link"[routerLink]="['/contact']">Kapcsolat</a>
+          </li>
 
-        <li role="presentation" class="active" *ngIf="route === 'registration'">
-          <a [routerLink]="['/registration']">Regisztráció</a>
-        </li>
-        <li role="presentation" *ngIf="route !== 'registration'">
-          <a [routerLink]="['/registration']">Regisztráció</a>
-        </li>
+          <li class="nav-item active" role="presentation" class="active" *ngIf="route === 'registration'">
+            <a class="nav-link"[routerLink]="['/registration']">Regisztráció</a>
+          </li>
+          <li class="nav-item active" role="presentation" *ngIf="route !== 'registration'">
+            <a class="nav-link"[routerLink]="['/registration']">Regisztráció</a>
+          </li>
 
-        <li role="presentation" class="active" *ngIf="route === 'admin'">
-          <a [routerLink]="['/admin/main']">Admin</a>
-        </li>
-        <li role="presentation" *ngIf="route !== 'admin'">
-          <a [routerLink]="['/admin/main']">Admin</a>
-        </li>
+          <li class="nav-item active" role="presentation" class="active" *ngIf="route === 'admin'">
+            <a class="nav-link"[routerLink]="['/admin/main']">Admin</a>
+          </li>
+          <li class="nav-item active" role="presentation" *ngIf="route !== 'admin'">
+            <a class="nav-link"[routerLink]="['/admin/main']">Admin</a>
+          </li>
 
-        <li role="presentation">
-          <a [routerLink]="['/login']">Kijelentkezés</a>
-        </li>
-      </ul>
+          <li class="nav-item active" role="presentation">
+            <a class="nav-link"[routerLink]="['/login']">Kijelentkezés</a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
   </div>

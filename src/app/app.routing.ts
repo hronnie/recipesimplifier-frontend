@@ -11,6 +11,7 @@ import {SearchComponent} from "./search/search.component";
 import {BlogComponent} from "./blog/blog.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {AdminRecipeEditComponent} from "./admin/admin-recipe-edit/admin-recipe-edit.component";
+import {IngredientInfoComponent} from "./admin";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent},
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     { path: 'admin/main', component: AdminMainComponent, canActivate: [AuthGuard] },
     { path: 'admin/recipe', component: AdminRecipeComponent, canActivate: [AuthGuard] },
     { path: 'admin/recipe/edit', component: AdminRecipeEditComponent, canActivate: [AuthGuard] },
+    { path: 'admin/recipe/ingrinfo', component: IngredientInfoComponent, canActivate: [AuthGuard] },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
