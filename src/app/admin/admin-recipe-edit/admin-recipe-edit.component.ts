@@ -89,23 +89,18 @@ export class AdminRecipeEditComponent implements OnInit {
     switch (index) {
       case 1: {
         return this.recipeImageAlbum.recipeImg1;
-        break;
       }
       case 2: {
         return this.recipeImageAlbum.recipeImg2;
-        break;
       }
       case 3: {
         return this.recipeImageAlbum.recipeImg3;
-        break;
       }
       case 4: {
         return this.recipeImageAlbum.recipeImg4;
-        break;
       }
       case 5: {
         return this.recipeImageAlbum.recipeImg5;
-        break;
       }
     }
   }
