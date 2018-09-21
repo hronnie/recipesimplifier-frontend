@@ -16,7 +16,6 @@ export class RecipeImageService {
     return this.http.get<Array<RecipeImageAlbum>>(AppSettings.RECIPE_IMAGE_ALBUM_URL + recipeId)
       .pipe(
         tap((response: RecipeImageAlbum) => {
-          debugger;
           return response;
         })
       );

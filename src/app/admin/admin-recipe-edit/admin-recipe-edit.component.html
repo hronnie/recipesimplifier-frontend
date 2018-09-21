@@ -28,7 +28,7 @@
             <input type="text" placeholder="Recept neve.." matInput formControlName='recipeName' [matAutocomplete]="auto">
           </mat-form-field>
 
-          <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayFn">
+          <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayRecipeHelper">
             <mat-option (onSelectionChange)="showSelectedRecipe(recipe)"  *ngFor="let recipe of (filteredRecipes | async)" [value]="recipe.name">
               {{ recipe.name }}
             </mat-option>

@@ -16,6 +16,9 @@ import {HttpEventType, HttpResponse} from "@angular/common/http";
 })
 export class AdminRecipeEditComponent implements OnInit {
 
+  // --------------------------------------
+  // class level variables START
+  // --------------------------------------
   recipeForm: FormGroup;
   recipeId: number;
   responseSuccessMsg: String;
@@ -33,7 +36,15 @@ export class AdminRecipeEditComponent implements OnInit {
   hideImageManageSection: boolean;
 
   recipeImageAlbum: any;
+  // --------------------------------------
+  // class level variables END
+  // --------------------------------------
 
+
+
+  // --------------------------------------
+  // Initialization START
+  // --------------------------------------
   constructor(private formBuilder: FormBuilder,
               private uploadService: UploadFileService,
               private recipeService: RecipeService,
@@ -69,7 +80,90 @@ export class AdminRecipeEditComponent implements OnInit {
     ]
     this.hideImageManageSection = true;
   }
+  // --------------------------------------
+  // Initialization END
+  // --------------------------------------
 
+
+
+  // --------------------------------------
+  // Reactive form declaration START
+  // --------------------------------------
+  // preparations related methods
+  createPreparation(): FormGroup {
+    return this.formBuilder.group({
+      preparationId: new FormControl('', []),
+      description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
+      duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
+    });
+  }
+
+  get preparations(): FormArray {
+    return this.recipeForm.get('preparations') as FormArray;
+  };
+
+  addPreparation(): void {
+    this.preparations.push(this.createPreparation());
+  }
+
+  removePreparation(index): void {
+    this.preparations.removeAt(index);
+  }
+
+  // ingredients related methods
+
+  createIngredient(): FormGroup {
+    return this.formBuilder.group({
+      ingredientId: new FormControl('', []),
+      name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
+      unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
+      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
+      ingredientInfoId: new FormControl('', [])
+    });
+  }
+
+  get ingredients(): FormArray {
+    return this.recipeForm.get('ingredients') as FormArray;
+  };
+
+  addIngredient(): void {
+    this.ingredients.push(this.createIngredient());
+  }
+
+  removeIngredient(index): void {
+    this.ingredients.removeAt(index);
+  }
+
+  // process related methods
+
+  createProcess(): FormGroup {
+    return this.formBuilder.group({
+      processId: new FormControl('', []),
+      description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
+      duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
+    });
+  }
+
+  get processes(): FormArray {
+    return this.recipeForm.get('processes') as FormArray;
+  };
+
+  addProcess(): void {
+    this.processes.push(this.createProcess());
+  }
+
+  removeProcess(index): void {
+    this.processes.removeAt(index);
+  }
+  // --------------------------------------
+  // Reactive form declaration END
+  // --------------------------------------
+
+
+
+  // --------------------------------------
+  // Image related code START
+  // --------------------------------------
   refreshImageAlbum() {
     this.recipeImageAlbum = this.recipeImageService.getRecipeImages(this.recipeId)
       .subscribe(res =>
@@ -149,96 +243,6 @@ export class AdminRecipeEditComponent implements OnInit {
     this.hideImageManageSection = !this.hideImageManageSection;
   }
 
-  showSelectedRecipe(recipe: Recipe) {
-    this.recipeId = recipe.recipeId;
-    this.recipeForm.patchValue({
-      recipeName: recipe.name,
-      calorie: recipe.calorie,
-      price: recipe.price,
-      category: recipe.category
-    });
-
-    this.recipeForm.setControl('preparations', this.formBuilder.array((recipe.preparations || []).map((x) => this.formBuilder.group(x))));
-    this.recipeForm.setControl('ingredients', this.formBuilder.array((recipe.ingredients || []).map((x) => this.formBuilder.group(x))));
-    this.recipeForm.setControl('processes', this.formBuilder.array((recipe.processes || []).map((x) => this.formBuilder.group(x))));
-
-    this.isRecipeLoded = true;
-  }
-
-  displayFn(recipe: Recipe) {
-    if (recipe) {
-      return recipe.name;
-    }
-  }
-
-  // preparations related methods
-
-  createPreparation(): FormGroup {
-    return this.formBuilder.group({
-      preparationId: new FormControl('', []),
-      description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
-      duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
-    });
-  }
-
-  get preparations(): FormArray {
-    return this.recipeForm.get('preparations') as FormArray;
-  };
-
-  addPreparation(): void {
-    this.preparations.push(this.createPreparation());
-  }
-
-  removePreparation(index): void {
-    this.preparations.removeAt(index);
-  }
-
-  // ingredients related methods
-
-  createIngredient(): FormGroup {
-    return this.formBuilder.group({
-      ingredientId: new FormControl('', []),
-      name: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(40)])]),
-      unit: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
-      quantity: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(4)]),
-      ingredientInfoId: new FormControl('', [])
-    });
-  }
-
-  get ingredients(): FormArray {
-    return this.recipeForm.get('ingredients') as FormArray;
-  };
-
-  addIngredient(): void {
-    this.ingredients.push(this.createIngredient());
-  }
-
-  removeIngredient(index): void {
-    this.ingredients.removeAt(index);
-  }
-
-  // process related methods
-
-  createProcess(): FormGroup {
-    return this.formBuilder.group({
-      processId: new FormControl('', []),
-      description: new FormControl('', [Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(500)])]),
-      duration: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(5)])
-    });
-  }
-
-  get processes(): FormArray {
-    return this.recipeForm.get('processes') as FormArray;
-  };
-
-  addProcess(): void {
-    this.processes.push(this.createProcess());
-  }
-
-  removeProcess(index): void {
-    this.processes.removeAt(index);
-  }
-
   selectFile(event) {
     this.selectedFiles = event.target.files;
   }
@@ -273,6 +277,35 @@ export class AdminRecipeEditComponent implements OnInit {
     }
     return !this.selectedFiles.item(index);
   }
+  // --------------------------------------
+  // Image related code END
+  // --------------------------------------
+
+
+  // --------------------------------------
+  // General recipe related code START
+  // --------------------------------------
+  showSelectedRecipe(recipe: Recipe) {
+    this.recipeId = recipe.recipeId;
+    this.recipeForm.patchValue({
+      recipeName: recipe.name,
+      calorie: recipe.calorie,
+      price: recipe.price,
+      category: recipe.category
+    });
+
+    this.recipeForm.setControl('preparations', this.formBuilder.array((recipe.preparations || []).map((x) => this.formBuilder.group(x))));
+    this.recipeForm.setControl('ingredients', this.formBuilder.array((recipe.ingredients || []).map((x) => this.formBuilder.group(x))));
+    this.recipeForm.setControl('processes', this.formBuilder.array((recipe.processes || []).map((x) => this.formBuilder.group(x))));
+
+    this.isRecipeLoded = true;
+  }
+
+  displayRecipeHelper(recipe: Recipe) {
+    if (recipe) {
+      return recipe.name;
+    }
+  }
 
   onFormSubmit(recipeForm, action){
     let inputDto = {
@@ -304,27 +337,27 @@ export class AdminRecipeEditComponent implements OnInit {
           }
         );
     } else if (action === 'delete'){
-        const dialogRef = this.modal.confirm()
-          .size('sm')
-          .isBlocking(true)
-          .showClose(true)
-          .keyboard(27)
-          .cancelBtn("Mégse")
-          .title('Törlés megerősítése')
-          .body(`
+      const dialogRef = this.modal.confirm()
+        .size('sm')
+        .isBlocking(true)
+        .showClose(true)
+        .keyboard(27)
+        .cancelBtn("Mégse")
+        .title('Törlés megerősítése')
+        .body(`
               <h3>Tényleg törölni akarod a receptet?</h3>
               `)
-          .open();
+        .open();
 
-        dialogRef.result
-          .then( result =>
-            {
-              if (result) {
-                this.doDelete();
-                this.recipeId = null;
-              }
+      dialogRef.result
+        .then( result =>
+          {
+            if (result) {
+              this.doDelete();
+              this.recipeId = null;
             }
-          );
+          }
+        );
     }
   }
 
@@ -348,25 +381,8 @@ export class AdminRecipeEditComponent implements OnInit {
       );
     this.recipeForm.reset();
   }
-
-  editRecipe() {
-    this.responseSuccessMsg = "";
-    this.responseErrorMsg = "";
-    let calorie = this.recipeForm.controls.calorie.value;
-    if (calorie === null) {
-      calorie = "-";
-    }
-    let inputDto = {
-      recipeId: this.recipeForm.controls.recipeId,
-      name: this.recipeForm.controls.recipeName,
-      calorie: calorie,
-      price: this.recipeForm.controls.price,
-      category: this.recipeForm.controls.category,
-      ingredients: this.recipeForm.controls.ingredients,
-      preparations: this.recipeForm.controls.preparations,
-      processes: this.recipeForm.controls.processes
-    }
-
-  }
+  // --------------------------------------
+  // General recipe related code END
+  // --------------------------------------
 
 }
