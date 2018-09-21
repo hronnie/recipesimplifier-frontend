@@ -1,7 +1,7 @@
 import { Component, OnInit, VERSION, Input, OnChanges } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {IngredientInfoService, RecipeService, UploadFileService} from "../../_services";
-import {Recipe, UploadFileResponse} from "../../_models";
+import {IngredientInfoService, RecipeImageService, RecipeService, UploadFileService} from "../../_services";
+import {Recipe, RecipeImageAlbum, UploadFileResponse} from "../../_models";
 import {Observable} from "rxjs";
 import {switchMap, debounceTime} from 'rxjs/operators';
 import {AppSettings} from "../../_commons";
@@ -32,10 +32,13 @@ export class AdminRecipeEditComponent implements OnInit {
   filteredRecipes: Observable<Recipe>;
   hideImageManageSection: boolean;
 
+  recipeImageAlbum: any;
+
   constructor(private formBuilder: FormBuilder,
               private uploadService: UploadFileService,
               private recipeService: RecipeService,
               private ingrInfoService: IngredientInfoService,
+              private recipeImageService: RecipeImageService,
               public modal: Modal) {
 
     this.recipeForm = formBuilder.group({
@@ -67,7 +70,48 @@ export class AdminRecipeEditComponent implements OnInit {
     this.hideImageManageSection = true;
   }
 
+  refreshImageAlbum() {
+    this.recipeImageAlbum = this.recipeImageService.getRecipeImages(this.recipeId)
+      .subscribe(res =>
+        {
+          this.recipeImageAlbum = res;
+        }, err => {
+          console.error("Couldn't fetch image album");
+        }
+      );
+  }
+
+  removeRecipeImage(index) {
+    alert(index);
+  }
+
+  isRecipeImageAvailable(index) {
+    switch (index) {
+      case 1: {
+        return this.recipeImageAlbum.recipeImg1;
+        break;
+      }
+      case 2: {
+        return this.recipeImageAlbum.recipeImg2;
+        break;
+      }
+      case 3: {
+        return this.recipeImageAlbum.recipeImg3;
+        break;
+      }
+      case 4: {
+        return this.recipeImageAlbum.recipeImg4;
+        break;
+      }
+      case 5: {
+        return this.recipeImageAlbum.recipeImg5;
+        break;
+      }
+    }
+  }
+
   toggleImageUpload() {
+    this.refreshImageAlbum();
     this.hideImageManageSection = !this.hideImageManageSection;
   }
 
@@ -174,10 +218,11 @@ export class AdminRecipeEditComponent implements OnInit {
     this.currentFileUpload = this.selectedFiles.item(0);
     this.uploadService.pushFileToStorage(this.currentFileUpload, index, this.recipeId).subscribe(event => {
       if (event instanceof HttpResponse) {
+        let result: UploadFileResponse;
+        result = JSON.parse(event.body.toString());
         if (event.status === 200) {
-          let result: UploadFileResponse;
-          result = JSON.parse(event.body.toString());
           this.imgResponseSuccessMsg = "A kép mentése sikeres volt: " + result.fileName;
+          this.refreshImageAlbum();
         } else {
           this.imgResponseErrMsg = "A kép mentése sikertelen volt: " + result.fileName;
         }

@@ -5,3 +5,4 @@ export * from './recipe';
 export * from './recipeProcess';
 export * from './ingredient-info';
 export * from './upload-file-response';
+export * from './recipe-image-album';
