@@ -82,7 +82,46 @@ export class AdminRecipeEditComponent implements OnInit {
   }
 
   removeRecipeImage(index) {
-    alert(index);
+    const dialogRef = this.modal.confirm()
+      .size('sm')
+      .isBlocking(true)
+      .showClose(true)
+      .keyboard(27)
+      .cancelBtn("Mégse")
+      .title('Törlés megerősítése')
+      .body(`
+              <h3>Tényleg törölni akarod a képet?</h3>
+              `)
+      .open();
+
+    dialogRef.result
+      .then( result =>
+        {
+          if (result) {
+            this.doImageDelete(index);
+          }
+        }
+      );
+  }
+
+  doImageDelete(index) {
+    this.recipeImageService.delete(this.recipeId, index)
+      .subscribe(res =>
+        {
+          this.imgResponseSuccessMsg = "Sikeres törlés";
+          this.refreshImageAlbum();
+        }, err => {
+          if (err.status === 422) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_422_BAD_DATA_RECIPE;
+          } else if (err.status === 401) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_401_AUTH_ERROR;
+          } else if (err.status === 500) {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_500_INTERNAL_SERVER_ERROR;
+          } else {
+            this.responseErrorMsg = AppSettings.HTTP_MSG_UNKNOWN;
+          }
+        }
+      );
   }
 
   isRecipeImageAvailable(index) {

@@ -21,4 +21,14 @@ export class RecipeImageService {
         })
       );
   }
+
+  delete(recipeId: number, index: number): Observable<String> {
+    let url = AppSettings.RECIPE_IMAGE_MANAGEMENT_URL + '/' + recipeId + '/' + index;
+    return this.http.delete<String>(url)
+      .pipe(
+        tap((response: String) => {
+          return response;
+        })
+      );
+  }
 }
