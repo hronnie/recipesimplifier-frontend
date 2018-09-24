@@ -4,4 +4,6 @@ export class Ingredient {
   quantity: number;
   unit: string;
   ingredientInfoId: number;
+  ingredientInfoName: string;
+  ingredientInfoDesc: string;
 }

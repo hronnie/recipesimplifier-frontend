@@ -39,8 +39,8 @@ export class RecipeComponent implements OnInit {
   }
 
   initImageAlbum(recipe) {
-    if (recipe.ima)
-    imageAlbum.recipeImg1
+    // if (recipe.ima)
+    // imageAlbum.recipeImg1
   }
 
   displayRecipeHelper(recipe: Recipe) {
