@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Recipe, RecipeImageAlbum} from "../_models";
+import {Recipe} from "../_models";
 import {Observable} from "rxjs";
 import {debounceTime, switchMap} from "rxjs/operators";
 import {RecipeService} from "../_services";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AppSettings} from "../_commons";
 
 @Component({
   selector: 'app-recipe',
@@ -16,9 +17,7 @@ export class RecipeComponent implements OnInit {
   filteredRecipes: Observable<Recipe>;
   recipeForm: FormGroup;
   displayRecipe: Recipe;
-  imgSrc = 'http://localhost:8080/api/admin/recipeimage/1/1';
-  imageAlbum: RecipeImageAlbum;
-  position: 'before'
+  recipeImageAlbum: string[];
 
   constructor(
     private recipeService: RecipeService,
@@ -40,8 +39,23 @@ export class RecipeComponent implements OnInit {
   }
 
   initImageAlbum(recipe) {
-    // if (recipe.ima)
-    // imageAlbum.recipeImg1
+    this.recipeImageAlbum = [];
+
+    if (recipe.recipeImg1) {
+      this.recipeImageAlbum.push(AppSettings.RECIPE_IMAGE_MANAGEMENT_URL + '/' + recipe.recipeId + '/' + 1);
+    }
+    if (recipe.recipeImg2) {
+      this.recipeImageAlbum.push(AppSettings.RECIPE_IMAGE_MANAGEMENT_URL + '/' + recipe.recipeId + '/' + 2);
+    }
+    if (recipe.recipeImg3) {
+      this.recipeImageAlbum.push(AppSettings.RECIPE_IMAGE_MANAGEMENT_URL + '/' + recipe.recipeId + '/' + 3);
+    }
+    if (recipe.recipeImg4) {
+      this.recipeImageAlbum.push(AppSettings.RECIPE_IMAGE_MANAGEMENT_URL + '/' + recipe.recipeId + '/' + 4);
+    }
+    if (recipe.recipeImg5) {
+      this.recipeImageAlbum.push(AppSettings.RECIPE_IMAGE_MANAGEMENT_URL + '/' + recipe.recipeId + '/' + 5);
+    }
   }
 
   displayRecipeHelper(recipe: Recipe) {

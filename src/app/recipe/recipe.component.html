@@ -33,9 +33,12 @@
       <div *ngIf="isRecipeLoded">
         <h2>{{displayRecipe.name}}</h2>
         <h3>Képek</h3>
-        <div class="flex-row">
-          <div class="form-group col-md-6 flex-column">
-            <img [src]="imgSrc" >
+
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active" *ngFor="let recipeImageSrc of recipeImageAlbum">
+              <img class="d-block w-100" [src]="recipeImageSrc" alt="First slide">
+            </div>
           </div>
         </div>
         <h3>Összetevők</h3>
