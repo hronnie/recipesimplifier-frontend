@@ -18,6 +18,7 @@ export class RecipeComponent implements OnInit {
   displayRecipe: Recipe;
   imgSrc = 'http://localhost:8080/api/admin/recipeimage/1/1';
   imageAlbum: RecipeImageAlbum;
+  position: 'before'
 
   constructor(
     private recipeService: RecipeService,

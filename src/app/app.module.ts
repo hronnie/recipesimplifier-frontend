@@ -23,8 +23,15 @@ import { RecipeComponent } from './recipe/recipe.component';
 import { SearchComponent } from './search/search.component';
 import { BlogComponent } from './blog/blog.component';
 import { RegistrationComponent } from './registration/registration.component';
-import {MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatButtonModule} from '@angular/material';
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatTooltipModule
+} from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AngularFontAwesomeModule} from "angular-font-awesome";
 
 
 @NgModule({
@@ -53,7 +60,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatAutocompleteModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatTooltipModule,
     AdminModule,
+    AngularFontAwesomeModule,
   ],
   exports: [
     BrowserAnimationsModule,
